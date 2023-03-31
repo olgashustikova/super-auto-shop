@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { ShopContext } from './ShopContext'
 
 const HomePage = () => {
+  const shopContext = useContext(ShopContext)
   return (
     <>
       <Wrapper>
         <Header>
+          <Div>{shopContext.currentUser}</Div>
           <Link to="/login">
             <Login>Login</Login>
           </Link>
@@ -38,5 +41,6 @@ const Login = styled.div`
 const Sign = styled.div`
   width: 120px;
 `
+const Div = styled.div``
 
 export default HomePage

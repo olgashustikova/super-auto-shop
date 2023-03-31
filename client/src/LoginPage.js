@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { Buffer } from 'buffer'
+import { ShopContext } from './ShopContext'
+import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
+  const shopContext = useContext(ShopContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
   const emailChangeHandler = (event) => {
     setEmail(event.target.value)
@@ -25,6 +29,9 @@ const LoginPage = () => {
       .then((response) => response.json())
       .then((responseObject) => {
         if (responseObject.status === 200) {
+          shopContext.setCurrentUser(email)
+          shopContext.setCurrentPassword(password)
+          navigate(`/`)
           alert('ALL GOOD')
         } else {
           alert(
