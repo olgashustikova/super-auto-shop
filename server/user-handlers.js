@@ -1,5 +1,6 @@
 'use strict'
 const { uuid } = require('uuidv4')
+const basicAuth = require('basic-auth')
 require('dotenv').config()
 const express = require('express')
 const { response } = require('express')
@@ -63,30 +64,31 @@ const getUser = async (request, response) => {
 }
 
 const loginUser = async (request, response) => {
-  //   console.log(request.body)
+  return response.status(200).json({ status: 200, message: 'success' })
+}
+
+const userBasicAuthCheck = async (req, res, next) => {
+  const credentials = basicAuth(req)
+
+  if (!credentials) {
+    return res.status(401).send('Authentication required.')
+  }
   try {
     await client.connect()
     const db = client.db('car-store')
     const collection = await db.collection('users')
     const userFromMongo = await collection.findOne({
-      email: request.body.email,
+      email: credentials.name,
     })
-    if (!userFromMongo) {
-      return response.status(404).json({ status: 404, error: 'user not found' })
+    if (userFromMongo && credentials.pass == userFromMongo.password) {
+      next()
+    } else {
+      return res
+        .status(401)
+        .json({ status: 404, error: 'Authentication required' })
     }
-    if (userFromMongo.password !== request.body.password) {
-      return response
-        .status(404)
-        .json({ status: 404, error: 'incorrect password' })
-    }
-    return response
-      .status(200)
-      .json({ status: 200, data: userFromMongo, message: 'success' })
   } catch (err) {
-    console.error(err)
-    return response
-      .status(500)
-      .json({ status: 500, message: `Internal Server Error: ${err}` })
+    return res.status(500).json({ status: 404, error: err })
   }
 }
-module.exports = { addUser, getUser, loginUser }
+module.exports = { addUser, getUser, loginUser, userBasicAuthCheck }

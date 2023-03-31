@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
+import { Buffer } from 'buffer'
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
@@ -13,14 +14,25 @@ const LoginPage = () => {
     setPassword(event.target.value)
   }
   const submitHandler = () => {
+    const encodedCredentials = Buffer.from(`${email}:${password}`).toString(
+      'base64'
+    )
     fetch('/api/login-user', {
-      method: 'POST',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Authorization: `Basic ${encodedCredentials}`,
       },
-      body: JSON.stringify({ email: email, password: password }),
-    }).then((res) => alert.res)
+    })
+      .then((response) => response.json())
+      .then((responseObject) => {
+        if (responseObject.status === 200) {
+          alert('ALL GOOD')
+        } else {
+          alert(
+            `ERROR with status: ${responseObject.status} and message: ${responseObject.error}`
+          )
+        }
+      })
+      .catch((err) => alert('ERROR: ' + err))
   }
   return (
     <>
