@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AdPreview from './AdPreview'
+import { Link } from 'react-router-dom'
 
 const Ads = () => {
   const [ads, setAds] = useState(null)

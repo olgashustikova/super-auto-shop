@@ -1,5 +1,5 @@
 const express = require('express')
-const { addAd, getAds } = require('./ad-handlers')
+const { addAd, getAds, getAd } = require('./ad-handlers')
 
 const {
   addUser,
@@ -15,7 +15,7 @@ express()
   .get('/api/login-user', userBasicAuthCheck, loginUser)
   .post('/api/add-ad', userBasicAuthCheck, addAd)
   .get('/api/get-ads', getAds)
-  .get('/api/get-ads', getAds)
+  .get('/api/get-ad/:id', getAd)
   .listen(4000, () => {
     console.log('Server started on port 4000')
   })

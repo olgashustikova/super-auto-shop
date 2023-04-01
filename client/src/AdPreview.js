@@ -37,6 +37,7 @@ const Information = styled.div`
   flex-direction: column;
   margin-top: 20px;
   text-align: left;
+  margin-left: 70px;
 `
 const Make = styled.div``
 const Model = styled.div``
