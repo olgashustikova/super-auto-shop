@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import Ads from './Ads'
 import { ShopContext } from './ShopContext'
 
 const HomePage = () => {
@@ -9,14 +10,20 @@ const HomePage = () => {
     <>
       <Wrapper>
         <Header>
-          <Div>{shopContext.currentUser}</Div>
-          <Link to="/login">
-            <Login>Login</Login>
-          </Link>
-          <Link to="/signup">
-            <Sign>Sign Up</Sign>
-          </Link>
+          {shopContext.currentUser ? (
+            <Div>{shopContext.currentUser}</Div>
+          ) : (
+            <Main>
+              <Link to="/login">
+                <Login>Login</Login>
+              </Link>
+              <Link to="/signup">
+                <Sign>Sign Up</Sign>
+              </Link>
+            </Main>
+          )}
         </Header>
+        <Ads></Ads>
       </Wrapper>
     </>
   )
@@ -40,6 +47,11 @@ const Login = styled.div`
 `
 const Sign = styled.div`
   width: 120px;
+`
+const Main = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-right: 400px;
 `
 const Div = styled.div``
 
