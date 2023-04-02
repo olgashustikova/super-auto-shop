@@ -5,11 +5,29 @@ const AdPreview = ({ ad }) => {
     <>
       <Container>
         <Image src={ad.imageUrl}></Image>
-        <Information>
-          <Make>Make: {ad.make}</Make>
-          <Model>Model: {ad.model}</Model>
-          <Price>Price: {ad.price}</Price>
-        </Information>
+        <Configuration>
+          <Make>{ad.make}</Make>
+          <Model>{ad.model}</Model>
+          <Price>{ad.price} $</Price>
+        </Configuration>
+        <AdditionalInformation>
+          <Information>
+            <Transmission>{ad.transmission}</Transmission>
+            <Text>Transmission</Text>
+          </Information>
+          <Information>
+            <Kilometres>{ad.kilometres}</Kilometres>
+            <Text>Kilometres</Text>
+          </Information>
+          <Information>
+            <BodyType>{ad.bodyType}</BodyType>
+            <Text>Body Type</Text>
+          </Information>
+          <Information>
+            <SellerType>{ad.sellerType}</SellerType>
+            <Text>Seller Type</Text>
+          </Information>
+        </AdditionalInformation>
       </Container>
     </>
   )
@@ -17,30 +35,63 @@ const AdPreview = ({ ad }) => {
 
 const Container = styled.div`
   font-family: Arial, Helvetica, sans-serif;
-  width: 500px;
-  height: 450px;
+  width: 300px;
+  height: 380px;
   overflow: hidden;
   text-align: center;
-  /* margin-top: 40px; */
+  background: white;
 `
 const Image = styled.img`
+  height: 60%;
+  width: 100%;
+`
+const Configuration = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 35px;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  font-weight: bold;
+`
+const AdditionalInformation = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  font-size: 12px;
   text-align: center;
   align-items: center;
-  width: 60%;
-  height: 60%;
-  margin-left: -50%;
-  margin-right: 40px;
-  /* display: inline-block; */
+  justify-content: space-around;
+`
+const Make = styled.div`
+  font-size: 17px;
+  margin-right: 15px;
+`
+const Model = styled.div`
+  margin-right: 15px;
+`
+const Price = styled.div`
+  font-size: 20px;
 `
 const Information = styled.div`
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  text-align: left;
-  margin-left: 70px;
 `
-const Make = styled.div``
-const Model = styled.div``
-const Price = styled.div``
+const Text = styled.div`
+  font-size: 10px;
+  margin-top: 5px;
+`
+const Transmission = styled.div`
+  font-weight: 600;
+`
+const Kilometres = styled.div`
+  font-weight: bold;
+`
+const BodyType = styled.div`
+  font-weight: bold;
+`
+const SellerType = styled.div`
+  font-weight: bold;
+`
 
 export default AdPreview

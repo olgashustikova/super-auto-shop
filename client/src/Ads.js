@@ -20,7 +20,10 @@ const Ads = () => {
           <Wrapper>
             {ads.map((ad) => {
               return (
-                <Link to={`/ad/${ad._id}`}>
+                <Link
+                  to={`/ad/${ad._id}`}
+                  style={{ textDecoration: 'none', color: '#585858' }}
+                >
                   <AdPreview ad={ad} key={ad._id}></AdPreview>
                 </Link>
               )
@@ -40,11 +43,16 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 10px;
+  background-color: lightgrey;
+  height: 100%;
 `
 const Wrapper = styled.div`
   display: grid;
   margin-left: 160px;
+  gap: 40px;
+  margin-top: 100px;
+
   grid-template-columns: repeat(4, 300px);
 `
 const Loading = styled.div``
