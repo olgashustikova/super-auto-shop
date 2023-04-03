@@ -29,6 +29,10 @@ const AdDetailsContent = ({ ad }) => {
             <Row2> {ad.sellerType}</Row2>
           </SellerType>
         </Information>
+        <Description>
+          <Row1Description>Description:</Row1Description>
+          <Row2> {ad.description}</Row2>
+        </Description>
         <Link to="/">
           <Button>Back</Button>
         </Link>
@@ -42,7 +46,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 1100px;
+  height: 1300px;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
 `
@@ -98,6 +102,17 @@ const BodyType = styled.div`
 const SellerType = styled.div`
   margin-left: 40px;
   margin-top: 20px;
+`
+const Row1Description = styled.div`
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 20px;
+`
+const Description = styled.div`
+  margin-top: 20px;
+  text-align: left;
+  width: 900px;
+  line-height: 1.5;
 `
 
 const Button = styled.button`

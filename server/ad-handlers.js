@@ -19,7 +19,7 @@ const addAd = async (request, response) => {
   console.log(request.file)
   const res = await cloudinary.uploader
     .upload(request.file.path, {
-      public_id: uuidv4(),
+      public_id: uuid(),
     })
     .then()
   console.log(res.url)

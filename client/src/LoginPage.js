@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const [errors, setErrors] = useState({})
 
   const emailChangeHandler = (event) => {
     setEmail(event.target.value)
@@ -17,50 +18,71 @@ const LoginPage = () => {
   const passwordChangeHandler = (event) => {
     setPassword(event.target.value)
   }
-  const submitHandler = () => {
-    const encodedCredentials = Buffer.from(`${email}:${password}`).toString(
-      'base64'
-    )
-    fetch('/api/login-user', {
-      headers: {
-        Authorization: `Basic ${encodedCredentials}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((responseObject) => {
-        if (responseObject.status === 200) {
-          shopContext.setCurrentUser(email)
-          shopContext.setCurrentPassword(password)
-          navigate(`/`)
-          alert('ALL GOOD')
-        } else {
-          alert(
-            `ERROR with status: ${responseObject.status} and message: ${responseObject.error}`
-          )
-        }
+  const submitHandler = async (event) => {
+    event.preventDefault()
+    const errorsObject = {}
+    if (email === '') {
+      errorsObject.email = 'Email is required'
+    }
+    if (password === '') {
+      errorsObject.password = 'Password is required'
+    }
+    setErrors(errorsObject)
+    if (Object.keys(errorsObject).length > 0) {
+      return
+    }
+    const formData = new FormData()
+    formData.append('email', email)
+    formData.append('password', password)
+
+    const encodedCredentials = Buffer.from(
+      `${shopContext.currentUser}:${shopContext.currentPassword}`
+    ).toString('base64')
+    try {
+      const response = await fetch('/api/login-user', {
+        headers: {
+          Authorization: `Basic ${encodedCredentials}`,
+        },
+        method: 'POST',
+        body: formData,
       })
-      .catch((err) => alert('ERROR: ' + err))
+      const data = await response.json()
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
   }
   return (
     <>
-      <Wrapper>
+      <Wrapper onSubmit={submitHandler}>
         <LabelOfEmail>Email</LabelOfEmail>
         <Email onChange={emailChangeHandler}></Email>
+        {errors.email && <Error className="error">{errors.email}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
         <Password onChange={passwordChangeHandler}></Password>
-        <Login onClick={submitHandler}>Login</Login>
+        {errors.password && <Error className="error">{errors.password}</Error>}
+        <Login type="submit" value="Login" />
       </Wrapper>
     </>
   )
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
+  justify-content: center;
   margin-top: 180px;
   margin-bottom: 70px;
+  margin-left: 700px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
+  width: 500px;
+  height: 350px;
 `
 const LabelOfEmail = styled.div`
   margin-bottom: 10px;
@@ -80,7 +102,7 @@ const Password = styled.input`
   margin-bottom: 40px;
   height: 30px;
 `
-const Login = styled.button`
+const Login = styled.input`
   display: inline-block;
   outline: 0;
   cursor: pointer;
@@ -99,6 +121,12 @@ const Login = styled.button`
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
+`
+const Error = styled.div`
+  margin-top: -35px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: red;
 `
 
 export default LoginPage

@@ -15,7 +15,9 @@ const NewAdForm = () => {
   const [kilometres, setKilometres] = useState('')
   const [bodyType, setBodyType] = useState('')
   const [sellerType, setSellerType] = useState('')
+  const [description, setDescription] = useState('')
   const [imageFile, setImageFile] = useState(null)
+  const [errors, setErrors] = useState({})
 
   const navigate = useNavigate()
   const makeChangeHandler = (event) => {
@@ -42,6 +44,9 @@ const NewAdForm = () => {
   const sellerTypeChangeHandler = (event) => {
     setSellerType(event.target.value)
   }
+  const descriptionChangeHandler = (event) => {
+    setDescription(event.target.value)
+  }
   const imageChangeHandler = (event) => {
     if (event.target.type === 'file') {
       setImageFile(event.target.files[0])
@@ -51,6 +56,42 @@ const NewAdForm = () => {
   }
   const submitHandler = async (event) => {
     event.preventDefault()
+    const errorsObject = {}
+    if (make === '') {
+      errorsObject.make = 'Make is required'
+    }
+    if (model === '') {
+      errorsObject.model = 'Model is required'
+    }
+    if (year === '' || !isNaN(year)) {
+      errorsObject.year = 'Year is required'
+    }
+    if (price === '' || !isNaN(price)) {
+      errorsObject.price = 'Price is required'
+    }
+    if (transmission === '') {
+      errorsObject.transmission = 'Transmission is required'
+    }
+    if (kilometres === '' || isNaN(kilometres)) {
+      errorsObject.kilometres = 'Kilometres is required'
+    }
+    if (bodyType === '') {
+      errorsObject.bodyType = 'Body type is required'
+    }
+    if (sellerType === '') {
+      errorsObject.sellerType = 'Seller type is required'
+    }
+    if (description === '') {
+      errorsObject.description = 'Description is required'
+    }
+    if (imageFile === null) {
+      errorsObject.imageFile = 'Image is required'
+    }
+    setErrors(errorsObject)
+    if (Object.keys(errorsObject).length > 0) {
+      return
+    }
+
     const formData = new FormData()
     formData.append('make', make)
     formData.append('model', model)
@@ -58,8 +99,9 @@ const NewAdForm = () => {
     formData.append('price', price)
     formData.append('transmission', transmission)
     formData.append('kilometres', kilometres)
-    formData.append('bosyType', bodyType)
+    formData.append('bodyType', bodyType)
     formData.append('sellerType', sellerType)
+    formData.append('description', description)
     formData.append('image', imageFile)
 
     const encodedCredentials = Buffer.from(
@@ -86,42 +128,97 @@ const NewAdForm = () => {
         <Wrapper onSubmit={submitHandler}>
           <Field>
             <LabelOfMake>Make</LabelOfMake>
-            <Make onChange={makeChangeHandler}></Make>
+            <FieldError>
+              <Configuration onChange={makeChangeHandler}></Configuration>
+              {errors.make && <Error className="error">{errors.make}</Error>}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfModel>Model</LabelOfModel>
-            <Model onChange={modelChangeHandler}></Model>
+            <FieldError>
+              <Configuration onChange={modelChangeHandler}></Configuration>
+              {errors.model && <Error className="error">{errors.model}</Error>}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfYear>Year</LabelOfYear>
-            <Year onChange={yearChangeHandler}></Year>
+            <FieldError>
+              <Configuration onChange={yearChangeHandler}></Configuration>
+              {errors.year && <Error className="error">{errors.year}</Error>}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfPrice>Price</LabelOfPrice>
-            <Price onChange={priceChangeHandler}></Price>
+            <FieldError>
+              <Configuration onChange={priceChangeHandler}></Configuration>
+              {errors.price && <Error className="error">{errors.price}</Error>}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfTransmission>Transmission</LabelOfTransmission>
-            <Transmission onChange={transmissionChangeHandler}></Transmission>
+            <FieldError>
+              <Configuration
+                onChange={transmissionChangeHandler}
+              ></Configuration>
+              {errors.transmission && (
+                <Error className="error">{errors.transmission}</Error>
+              )}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfKilometres>Kilometres</LabelOfKilometres>
-            <Kilometres onChange={kilometresChangeHandler}></Kilometres>
+            <FieldError>
+              <Configuration onChange={kilometresChangeHandler}></Configuration>
+              {errors.kilometres && (
+                <Error className="error">{errors.kilometres}</Error>
+              )}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfBodyType>Body type</LabelOfBodyType>
-            <BodyType onChange={bodyTypeChangeHandler}></BodyType>
+            <FieldError>
+              <Configuration onChange={bodyTypeChangeHandler}></Configuration>
+              {errors.bodyType && (
+                <Error className="error">{errors.bodyType}</Error>
+              )}
+            </FieldError>
           </Field>
           <Field>
             <LabelOfSellerType>Seller type</LabelOfSellerType>
-            <SellerType onChange={sellerTypeChangeHandler}></SellerType>
+            <FieldError>
+              <Configuration onChange={sellerTypeChangeHandler}></Configuration>
+              {errors.sellerType && (
+                <Error className="error">{errors.sellerType}</Error>
+              )}
+            </FieldError>
           </Field>
           <Field>
-            <LabelOfSellerType>Seller type</LabelOfSellerType>
-            <SellerType type="file" onChange={imageChangeHandler}></SellerType>
+            <LabelOfImage>Image</LabelOfImage>
+            <FieldError>
+              <Configuration
+                type="file"
+                onChange={imageChangeHandler}
+              ></Configuration>
+              {errors.imageFile && (
+                <Error className="error">{errors.imageFile}</Error>
+              )}
+            </FieldError>
+          </Field>
+          <Field>
+            <LabelOfDescription>Description</LabelOfDescription>
+            <FieldError>
+              <Description
+                onChange={descriptionChangeHandler}
+                rows="4"
+                cols="2"
+              ></Description>
+              {errors.description && (
+                <Error className="error">{errors.description}</Error>
+              )}
+            </FieldError>
           </Field>
 
-          <Login onClick={submitHandler}>Login</Login>
+          <Login type="submit" value="add" />
         </Wrapper>
       </Main>
     </>
@@ -137,9 +234,10 @@ const Wrapper = styled.form`
   flex-direction: column;
   text-align: center;
   align-items: center;
-  margin-top: 140px;
+  margin-top: 50px;
   margin-bottom: 70px;
-  width: 500px;
+  width: 600px;
+  height: 950px;
   justify-content: center;
   border: 2px solid #ccc;
   border-radius: 4px;
@@ -150,22 +248,16 @@ const Wrapper = styled.form`
 const Field = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 `
 const LabelOfMake = styled.div`
   margin-right: 40px;
-  margin-top: 20px;
 `
-const Make = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
-  margin-top: 20px;
-`
+
 const LabelOfModel = styled.div`
   margin-right: 40px;
 `
-const Model = styled.input`
+const Configuration = styled.input`
   width: 180px;
   justify-content: center;
   margin-bottom: 30px;
@@ -174,57 +266,29 @@ const Model = styled.input`
 const LabelOfYear = styled.div`
   margin-right: 50px;
 `
-const Year = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
-`
 const LabelOfPrice = styled.div`
   margin-bottom: 20px;
   margin-right: 50px;
 `
-const Price = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
-`
 const LabelOfTransmission = styled.div``
-const Transmission = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
-`
+
 const LabelOfKilometres = styled.div`
   margin-right: 20px;
-`
-const Kilometres = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
 `
 const LabelOfBodyType = styled.div`
   margin-right: 20px;
 `
-const BodyType = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
-`
 const LabelOfSellerType = styled.div`
   margin-right: 20px;
 `
-const SellerType = styled.input`
-  width: 180px;
-  justify-content: center;
-  margin-bottom: 30px;
-  height: 30px;
+const LabelOfDescription = styled.div``
+const Description = styled.textarea`
+  margin-bottom: 40px;
 `
-const Login = styled.button`
+const LabelOfImage = styled.div`
+  margin-right: 43px;
+`
+const Login = styled.input`
   display: inline-block;
   outline: 0;
   cursor: pointer;
@@ -244,6 +308,16 @@ const Login = styled.button`
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
+`
+const FieldError = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+const Error = styled.div`
+  margin-top: -30px;
+  margin-bottom: 15px;
+  font-size: 12px;
+  color: red;
 `
 
 export default NewAdForm

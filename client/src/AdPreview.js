@@ -40,6 +40,11 @@ const Container = styled.div`
   overflow: hidden;
   text-align: center;
   background: white;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  background-color: #f9f9f9;
 `
 const Image = styled.img`
   height: 60%;
