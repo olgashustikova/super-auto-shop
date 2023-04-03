@@ -2,13 +2,28 @@
 const { uuid } = require('uuidv4')
 const basicAuth = require('basic-auth')
 require('dotenv').config()
-const express = require('express')
-const { response } = require('express')
 const MongoClient = require('mongodb').MongoClient
 const uri = process.env.Mongo_URI
 const client = new MongoClient(uri)
 
+const cloudinary = require('cloudinary').v2
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+})
+
 const addAd = async (request, response) => {
+  console.log(request.body)
+  console.log('--------------------------')
+  console.log(request.file)
+  const res = await cloudinary.uploader
+    .upload(request.file.path, {
+      public_id: uuidv4(),
+    })
+    .then()
+  console.log(res.url)
+
   try {
     const credentials = basicAuth(request)
 
@@ -30,7 +45,7 @@ const addAd = async (request, response) => {
       kilometres: request.body.kilometres,
       bodyType: request.body.bodyType,
       sellerType: request.body.sellerType,
-      imageUrl: request.body.imageUrl,
+      imageUrl: res.url,
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -38,7 +53,7 @@ const addAd = async (request, response) => {
       .status(500)
       .json({ status: 500, message: `Internal Server Error: ${err}` })
   }
-  console.log(request.body)
+
   return response.status(200).json({ status: 200, message: 'ok' })
 }
 

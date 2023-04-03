@@ -7,70 +7,83 @@ import { useNavigate } from 'react-router-dom'
 
 const NewAdForm = () => {
   const shopContext = useContext(ShopContext)
-  const [formState, setFormState] = useState({
-    make: '',
-    model: '',
-    year: 0,
-    price: 0,
-    transmission: '',
-    kilometres: 0,
-    bodyType: '',
-    sellerType: '',
-  })
+  const [make, setMake] = useState('')
+  const [model, setModel] = useState('')
+  const [year, setYear] = useState('')
+  const [price, setPrice] = useState('')
+  const [transmission, setTransmission] = useState('')
+  const [kilometres, setKilometres] = useState('')
+  const [bodyType, setBodyType] = useState('')
+  const [sellerType, setSellerType] = useState('')
+  const [imageFile, setImageFile] = useState(null)
 
   const navigate = useNavigate()
   const makeChangeHandler = (event) => {
-    setFormState({ make: event.target.value })
+    setMake(event.target.value)
   }
   const modelChangeHandler = (event) => {
-    setFormState({ model: event.target.value })
+    setModel(event.target.value)
   }
   const yearChangeHandler = (event) => {
-    setFormState({ year: event.target.value })
+    setYear(event.target.value)
   }
   const priceChangeHandler = (event) => {
-    setFormState({ price: event.target.value })
+    setPrice(event.target.value)
   }
   const transmissionChangeHandler = (event) => {
-    setFormState({ transmission: event.target.value })
+    setTransmission(event.target.value)
   }
   const kilometresChangeHandler = (event) => {
-    setFormState({ kilometres: event.target.value })
+    setKilometres(event.target.value)
   }
   const bodyTypeChangeHandler = (event) => {
-    setFormState({ bodyType: event.target.value })
+    setBodyType(event.target.value)
   }
   const sellerTypeChangeHandler = (event) => {
-    setFormState({ sellerType: event.target.value })
+    setSellerType(event.target.value)
   }
-  const submitHandler = () => {
-    // const encodedCredentials = Buffer.from(`${email}:${password}`).toString(
-    //   'base64'
-    // )
-    //   fetch('/api/login-user', {
-    //     headers: {
-    //       Authorization: `Basic ${encodedCredentials}`,
-    //     },
-    //   })
-    //     .then((response) => response.json())
-    //     .then((responseObject) => {
-    //       if (responseObject.status === 200) {
-    //         shopContext.setCurrentUser(email)
-    //         shopContext.setCurrentPassword(password)
-    //         navigate(`/`)
-    //         alert('ALL GOOD')
-    //       } else {
-    //         alert(
-    //           `ERROR with status: ${responseObject.status} and message: ${responseObject.error}`
-    //         )
-    //       }
-    //     })
-    //     .catch((err) => alert('ERROR: ' + err))
+  const imageChangeHandler = (event) => {
+    if (event.target.type === 'file') {
+      setImageFile(event.target.files[0])
+    } else {
+      alert('Error, you should image of your car')
+    }
+  }
+  const submitHandler = async (event) => {
+    event.preventDefault()
+    const formData = new FormData()
+    formData.append('make', make)
+    formData.append('model', model)
+    formData.append('year', year)
+    formData.append('price', price)
+    formData.append('transmission', transmission)
+    formData.append('kilometres', kilometres)
+    formData.append('bosyType', bodyType)
+    formData.append('sellerType', sellerType)
+    formData.append('image', imageFile)
+
+    const encodedCredentials = Buffer.from(
+      `${shopContext.currentUser}:${shopContext.currentPassword}`
+    ).toString('base64')
+
+    try {
+      const response = await fetch('/api/add-ad', {
+        headers: {
+          Authorization: `Basic ${encodedCredentials}`,
+        },
+        method: 'POST',
+        body: formData,
+      })
+      const data = await response.json()
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
   }
   return (
     <>
       <Main>
-        <Wrapper>
+        <Wrapper onSubmit={submitHandler}>
           <Field>
             <LabelOfMake>Make</LabelOfMake>
             <Make onChange={makeChangeHandler}></Make>
@@ -103,6 +116,10 @@ const NewAdForm = () => {
             <LabelOfSellerType>Seller type</LabelOfSellerType>
             <SellerType onChange={sellerTypeChangeHandler}></SellerType>
           </Field>
+          <Field>
+            <LabelOfSellerType>Seller type</LabelOfSellerType>
+            <SellerType type="file" onChange={imageChangeHandler}></SellerType>
+          </Field>
 
           <Login onClick={submitHandler}>Login</Login>
         </Wrapper>
@@ -115,7 +132,7 @@ const Main = styled.div`
   flex-direction: column;
   align-items: center;
 `
-const Wrapper = styled.div`
+const Wrapper = styled.form`
   display: flex;
   flex-direction: column;
   text-align: center;
