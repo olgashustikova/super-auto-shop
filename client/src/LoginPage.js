@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
   const shopContext = useContext(ShopContext)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('Twin@test.com')
+  const [password, setPassword] = useState('123456')
   const navigate = useNavigate()
   const [errors, setErrors] = useState({})
 
@@ -31,35 +31,36 @@ const LoginPage = () => {
     if (Object.keys(errorsObject).length > 0) {
       return
     }
-    const formData = new FormData()
-    formData.append('email', email)
-    formData.append('password', password)
-
-    const encodedCredentials = Buffer.from(
-      `${shopContext.currentUser}:${shopContext.currentPassword}`
-    ).toString('base64')
+    const encodedCredentials = Buffer.from(`${email}:${password}`).toString(
+      'base64'
+    )
     try {
       const response = await fetch('/api/login-user', {
         headers: {
           Authorization: `Basic ${encodedCredentials}`,
         },
-        method: 'POST',
-        body: formData,
+        method: 'GET',
       })
       const data = await response.json()
-      console.log(data)
+      if (data.status == 200) {
+        shopContext.setCurrentUser(email)
+        shopContext.setCurrentPassword(password)
+        navigate('/')
+      } else {
+        alert(`ERROR: ${data.error}`)
+      }
     } catch (error) {
-      console.error(error)
+      alert(`ERROR: ${error}`)
     }
   }
   return (
     <>
       <Wrapper onSubmit={submitHandler}>
         <LabelOfEmail>Email</LabelOfEmail>
-        <Email onChange={emailChangeHandler}></Email>
+        <Email value="Twin@test.com" onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
-        <Password onChange={passwordChangeHandler}></Password>
+        <Password value="123456" onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}
         <Login type="submit" value="Login" />
       </Wrapper>

@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 import ChatDetailsContent from './ChatDetailsContent'
 import styled from 'styled-components'
 
 const Chat = () => {
   const [chat, setChat] = useState(null)
-  const [messages, setMessages] = useState([])
-  const [inputTo, setInputTo] = useState('')
 
   return (
     <Container>

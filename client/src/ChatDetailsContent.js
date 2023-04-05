@@ -1,7 +1,39 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { ShopContext } from './ShopContext'
+import { useContext, useState } from 'react'
+import { Buffer } from 'buffer'
 
 const ChatDetailsContent = ({ chat }) => {
+  const shopContext = useContext(ShopContext)
+  const [messages, setMessages] = useState('')
+
+  const textInputOnCHange = (event) => {
+    setMessages(event.target.value)
+  }
+
+  const handleSubmit = async () => {
+    const encodedCredentials = Buffer.from(
+      `${shopContext.currentUser}:${shopContext.currentPassword}`
+    ).toString('base64')
+    try {
+      const response = await fetch('/api/add-chat', {
+        headers: {
+          Authorization: `Basic ${encodedCredentials}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          text: messages,
+          to: 'Bit@test.com',
+          from: shopContext.currentUser,
+        }),
+      })
+      const data = await response.json()
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <>
       <Container>
@@ -29,12 +61,14 @@ const ChatDetailsContent = ({ chat }) => {
           </Messages>
         </Main>
         <Bottom>
-          <Button>Ok</Button>
+          <ChatInput onChange={textInputOnCHange} type="text"></ChatInput>
+          <Button onClick={handleSubmit}>Ok</Button>
         </Bottom>
       </Container>
     </>
   )
 }
+
 export default ChatDetailsContent
 
 const Container = styled.div`
@@ -106,14 +140,21 @@ const Bottom = styled.div`
   width: 600px;
   height: 50px;
   background-color: #e5e5ea;
+  display: flex;
+  flex-direction: row;
+`
+const ChatInput = styled.input`
+  height: 44px;
+  background-color: #e5e5ea;
+  border: hidden;
+  flex: 1;
 `
 const Button = styled.button`
+  width: 140px;
   display: inline-block;
-  margin-left: 467px;
   outline: 0;
   cursor: pointer;
   border: none;
-  padding: 0 56px;
   height: 50px;
   line-height: 45px;
   border-radius: 7px;
