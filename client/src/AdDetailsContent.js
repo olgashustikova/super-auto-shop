@@ -33,9 +33,14 @@ const AdDetailsContent = ({ ad }) => {
           <Row1Description>Description:</Row1Description>
           <Row2> {ad.description}</Row2>
         </Description>
-        <Link to="/">
-          <Button>Back</Button>
-        </Link>
+        <Buttons>
+          <Link to="/">
+            <Button>Back</Button>
+          </Link>
+          <Link to="/chat">
+            <Button>Chat</Button>
+          </Link>
+        </Buttons>
       </Container>
     </>
   )
@@ -117,6 +122,7 @@ const Description = styled.div`
 
 const Button = styled.button`
   display: inline-block;
+  margin-left: 250px;
   outline: 0;
   cursor: pointer;
   border: none;
@@ -135,4 +141,8 @@ const Button = styled.button`
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
+`
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
 `

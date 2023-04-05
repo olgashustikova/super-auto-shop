@@ -4,6 +4,7 @@ import SignUpPage from './SignUpPage'
 import NewAdForm from './NewAdForm'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AdDetails from './AdDetails'
+import Chat from './Chat'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/add-form" element={<NewAdForm />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   )
