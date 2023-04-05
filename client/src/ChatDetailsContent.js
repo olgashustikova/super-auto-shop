@@ -37,29 +37,22 @@ const ChatDetailsContent = ({ chat }) => {
   return (
     <>
       <Container>
-        <Main>
-          <Names>
-            <Name>Ben</Name>
-            <Name>Tim</Name>
-            <Name>Rick</Name>
-          </Names>
+        <Messages>
+          <NameOfUser>Chat with Ben</NameOfUser>
+          <Message>
+            <NameOfUserInChat>Ben</NameOfUserInChat>
+            <TextOfChat>How are you?</TextOfChat>
+          </Message>
+          <Message>
+            <NameOfUserInChat>Me</NameOfUserInChat>
+            <TextOfChat>Hi</TextOfChat>
+          </Message>
+          <Message>
+            <NameOfUserInChat>Ben</NameOfUserInChat>
+            <TextOfChat>Hello</TextOfChat>
+          </Message>
+        </Messages>
 
-          <Messages>
-            <NameOfUser>Chat with Ben</NameOfUser>
-            <Message>
-              <NameOfUserInChat>Ben</NameOfUserInChat>
-              <TextOfChat>How are you?</TextOfChat>
-            </Message>
-            <Message>
-              <NameOfUserInChat>Me</NameOfUserInChat>
-              <TextOfChat>Hi</TextOfChat>
-            </Message>
-            <Message>
-              <NameOfUserInChat>Ben</NameOfUserInChat>
-              <TextOfChat>Hello</TextOfChat>
-            </Message>
-          </Messages>
-        </Main>
         <Bottom>
           <ChatInput onChange={textInputOnCHange} type="text"></ChatInput>
           <Button onClick={handleSubmit}>Ok</Button>
@@ -74,29 +67,13 @@ export default ChatDetailsContent
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center;
   margin-top: 50px;
-  height: 1300px;
+  height: 1200px;
+  width: 100%;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-`
-const Main = styled.div`
-  display: flex;
-  flex-direction: row;
-  height: 500px;
-  width: 600px;
-  border: 1px solid grey;
-`
-const Names = styled.div`
-  overflow-y: scroll;
-  width: 60%;
-  background-color: #585858;
-  color: white;
-`
-const Name = styled.div`
-  height: 7%;
-  margin-top: 15px;
-  border-bottom: 1px solid grey;
+  font-family: Arial, Helvetica, sans-serif; */
+  flex-grow: 1;
 `
 const NameOfUserInChat = styled.div`
   padding-bottom: 20px;
@@ -106,16 +83,17 @@ const NameOfUser = styled.div`
   text-align: left;
   padding-top: 10px;
   padding-left: 10px;
-  height: 40px;
+  height: 80px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   border-bottom: 1px solid grey;
 `
 const Messages = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 `
 const Message = styled.div`
   border: 1px solid grey;
@@ -137,7 +115,7 @@ const Bottom = styled.div`
   border-bottom: 1px solid grey;
   border-right: 1px solid grey;
   border-left: 1px solid grey;
-  width: 600px;
+
   height: 50px;
   background-color: #e5e5ea;
   display: flex;
