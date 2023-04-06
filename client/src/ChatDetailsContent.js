@@ -3,7 +3,7 @@ import { ShopContext } from './ShopContext'
 import { useContext, useState } from 'react'
 import { Buffer } from 'buffer'
 
-const ChatDetailsContent = ({ chat }) => {
+const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
   const [messages, setMessages] = useState('')
 

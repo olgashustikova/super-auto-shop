@@ -34,6 +34,32 @@ const addChat = async (request, response) => {
   return response.status(200).json({ status: 200, message: 'ok' })
 }
 
+const getAllChatPersonsForUser = async (request, response) => {
+  const credentials = basicAuth(request)
+
+  try {
+    await client.connect()
+    const db = client.db('car-store')
+    const collection = await db.collection('chat')
+    const chatsFromMongo = await collection.distinct('from', {
+      to: credentials.name,
+    })
+    if (!chatsFromMongo) {
+      return response
+        .status(404)
+        .json({ status: 404, message: 'chat not found' })
+    }
+    return response
+      .status(200)
+      .json({ status: 200, data: chatsFromMongo, message: 'success' })
+  } catch (err) {
+    console.error(err)
+    return response
+      .status(500)
+      .json({ status: 500, message: `Internal Server Error: ${err}` })
+  }
+}
+
 const getChat = async (request, response) => {
   try {
     await client.connect()
@@ -59,4 +85,4 @@ const getChat = async (request, response) => {
   }
 }
 
-module.exports = { addChat, getChat }
+module.exports = { addChat, getChat, getAllChatPersonsForUser }

@@ -15,7 +15,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/add-form" element={<NewAdForm />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:fromUserName" element={<Chat />} />
       </Routes>
     </BrowserRouter>
   )

@@ -37,7 +37,7 @@ const AdDetailsContent = ({ ad }) => {
           <Link to="/">
             <Button>Back</Button>
           </Link>
-          <Link to="/chat">
+          <Link to={`/chat/:${ad.userName}`}>
             <Button>Chat</Button>
           </Link>
         </Buttons>

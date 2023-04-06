@@ -69,6 +69,7 @@ const loginUser = async (request, response) => {
 
 const userBasicAuthCheck = async (req, res, next) => {
   const credentials = basicAuth(req)
+  console.log(`user: ${credentials.name} passing through auth`)
 
   if (!credentials) {
     return res.status(401).send('Authentication required.')

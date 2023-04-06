@@ -1,19 +1,36 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import ChatDetailsContent from './ChatDetailsContent'
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom'
+import { ShopContext } from './ShopContext'
 
 const Chat = () => {
   const [chat, setChat] = useState(null)
+  const { fromUserName } = useParams()
+  const [chatPersons, setChatPersons] = useState(null)
+  const shopContext = useContext(ShopContext)
+
+  useEffect(() => {
+    fetch('/api/get-chats-persons', {
+      headers: {
+        Authorization: shopContext.prepareBasicHeader(),
+      },
+    })
+      .then((response) => response.json())
+      .then((responseObject) => {
+        setChatPersons(responseObject.data)
+      })
+      .catch((err) => alert(err))
+  }, [])
 
   return (
     <Container>
       <Main>
         <Names>
-          <Name>Ben</Name>
-          <Name>Tim</Name>
-          <Name>Rick</Name>
+          {chatPersons &&
+            chatPersons.map((person) => <Name key={person}>{person}</Name>)}
         </Names>
-        <ChatDetailsContent chat={chat}></ChatDetailsContent>
+        <ChatDetailsContent fromUserName={fromUserName}></ChatDetailsContent>
       </Main>
     </Container>
   )

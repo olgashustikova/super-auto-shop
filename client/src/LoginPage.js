@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 const LoginPage = () => {
   const shopContext = useContext(ShopContext)
-  const [email, setEmail] = useState('Twin@test.com')
+  const [email, setEmail] = useState('Bit@test.com')
   const [password, setPassword] = useState('123456')
   const navigate = useNavigate()
   const [errors, setErrors] = useState({})
@@ -57,7 +57,7 @@ const LoginPage = () => {
     <>
       <Wrapper onSubmit={submitHandler}>
         <LabelOfEmail>Email</LabelOfEmail>
-        <Email value="Twin@test.com" onChange={emailChangeHandler}></Email>
+        <Email value="Bit@test.com" onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
         <Password value="123456" onChange={passwordChangeHandler}></Password>

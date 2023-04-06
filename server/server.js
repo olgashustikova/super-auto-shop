@@ -1,6 +1,10 @@
 const express = require('express')
 const { addAd, getAds, getAd } = require('./ad-handlers')
-const { addChat, getChat } = require('./chat-handlers')
+const {
+  addChat,
+  getChat,
+  getAllChatPersonsForUser,
+} = require('./chat-handlers')
 const os = require('node:os')
 
 const multer = require('multer')
@@ -33,6 +37,7 @@ express()
   .get('/api/get-ad/:id', getAd)
   .post('/api/add-chat', userBasicAuthCheck, addChat)
   .get('/api/get-chats', getChat)
+  .get('/api/get-chats-persons', userBasicAuthCheck, getAllChatPersonsForUser)
   .listen(4000, () => {
     console.log('Server started on port 4000')
   })
