@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { ShopContext } from './ShopContext'
 
 const AdDetailsContent = ({ ad }) => {
   return (
@@ -37,9 +38,11 @@ const AdDetailsContent = ({ ad }) => {
           <Link to="/">
             <Button>Back</Button>
           </Link>
-          <Link to={`/chat/:${ad.userName}`}>
-            <Button>Chat</Button>
-          </Link>
+          {ShopContext.currentUser && (
+            <Link to={`/chat/:${ad.userName}`}>
+              <Button>Send message</Button>
+            </Link>
+          )}
         </Buttons>
       </Container>
     </>
@@ -119,7 +122,6 @@ const Description = styled.div`
   width: 900px;
   line-height: 1.5;
 `
-
 const Button = styled.button`
   display: inline-block;
   margin-left: 250px;

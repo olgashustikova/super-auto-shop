@@ -1,14 +1,28 @@
 import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Buffer } from 'buffer'
 
 const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
-  const [messages, setMessages] = useState('')
+  const [chatText, setChatText] = useState('')
+  const [messages, setMessages] = useState(null)
+
+  useEffect(() => {
+    fetch(`/api/get-chats-persons`, {
+      headers: {
+        Authorization: shopContext.prepareBasicHeader(),
+      },
+    })
+      .then((response) => response.json())
+      .then((responseObject) => {
+        setMessages(responseObject.data)
+      })
+      .catch((err) => alert(err))
+  }, [])
 
   const textInputOnCHange = (event) => {
-    setMessages(event.target.value)
+    setChatText(event.target.value)
   }
 
   const handleSubmit = async () => {
@@ -23,7 +37,7 @@ const ChatDetailsContent = ({ fromUserName }) => {
         },
         method: 'POST',
         body: JSON.stringify({
-          text: messages,
+          text: chatText,
           to: 'Bit@test.com',
           from: shopContext.currentUser,
         }),
@@ -84,7 +98,7 @@ const NameOfUser = styled.div`
   padding-top: 10px;
   padding-left: 10px;
   height: 80px;
-  width: 500px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

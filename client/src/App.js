@@ -5,10 +5,12 @@ import NewAdForm from './NewAdForm'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AdDetails from './AdDetails'
 import Chat from './Chat'
+import Header from './Header'
 
 function App() {
   return (
     <BrowserRouter>
+      <Header></Header>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/ad/:adId" element={<AdDetails />} />

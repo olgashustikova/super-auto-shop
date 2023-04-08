@@ -63,10 +63,10 @@ const NewAdForm = () => {
     if (model === '') {
       errorsObject.model = 'Model is required'
     }
-    if (year === '' || !isNaN(year)) {
+    if (year === '' || isNaN(year)) {
       errorsObject.year = 'Year is required'
     }
-    if (price === '' || !isNaN(price)) {
+    if (price === '' || isNaN(price)) {
       errorsObject.price = 'Price is required'
     }
     if (transmission === '') {
@@ -210,7 +210,7 @@ const NewAdForm = () => {
               <Description
                 onChange={descriptionChangeHandler}
                 rows="4"
-                cols="2"
+                cols="23"
               ></Description>
               {errors.description && (
                 <Error className="error">{errors.description}</Error>

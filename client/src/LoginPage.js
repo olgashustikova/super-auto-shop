@@ -74,9 +74,9 @@ const Wrapper = styled.form`
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 180px;
+  margin-top: 70px;
   margin-bottom: 70px;
-  margin-left: 700px;
+  margin-left: 400px;
   border: 2px solid #ccc;
   border-radius: 4px;
   padding: 10px;

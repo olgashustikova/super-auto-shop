@@ -61,14 +61,17 @@ const getAllChatPersonsForUser = async (request, response) => {
 }
 
 const getChat = async (request, response) => {
+  const credentials = basicAuth(request)
   try {
     await client.connect()
     const db = client.db('car-store')
     const collection = await db.collection('chat')
-    const chatFromMongo = await collection.findOne({
-      to: request.query.to,
-      from: request.query.from,
-    })
+    const chatFromMongo = await collection
+      .find({
+        to: credentials.name,
+        from: request.query.from,
+      })
+      .toArray()
     if (!chatFromMongo) {
       return response
         .status(404)

@@ -93,9 +93,9 @@ const Wrapper = styled.div`
   flex-direction: column;
   text-align: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 40px;
   margin-bottom: 70px;
-  margin-left: 650px;
+  margin-left: 400px;
   width: 500px;
   height: 650px;
   justify-content: center;
