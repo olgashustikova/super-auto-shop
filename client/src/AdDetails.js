@@ -5,7 +5,6 @@ import AdDetailsContent from './AdDetailsContent'
 import styled from 'styled-components'
 
 const AdDetails = () => {
-  const navigate = useNavigate()
   const { adId } = useParams()
   const [ad, setAd] = useState(null)
   useEffect(() => {

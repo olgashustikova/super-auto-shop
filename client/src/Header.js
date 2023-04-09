@@ -15,16 +15,21 @@ const Header = () => {
         {shopContext.currentUser ? (
           <>
             <User>
-              <Div>{shopContext.currentUser}</Div>
-              <Button>
-                <Link
-                  to="/add-form"
-                  style={{ textDecoration: 'none', color: '#585858' }}
-                >
-                  Add new ad
-                </Link>
-              </Button>
+              <Link
+                to="/add-form"
+                style={{ textDecoration: 'none', color: '#585858' }}
+              >
+                <Button>Add new ad</Button>
+              </Link>
+              <Link
+                to="/chat"
+                style={{ textDecoration: 'none', color: '#585858' }}
+              >
+                <Button>My messages</Button>
+              </Link>
             </User>
+
+            <UserName>{shopContext.currentUser}</UserName>
           </>
         ) : (
           <Main>
@@ -44,27 +49,24 @@ const Header = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
+  height: 6vh;
 `
 const Main = styled.div`
-  height: 100px;
   display: flex;
   flex-direction: row;
-  justify-content: right;
+  justify-content: left;
   width: 100%;
   background-color: white;
   font-size: 25px;
   font-weight: bold;
 `
 const Login = styled.div`
-  margin-right: 20px;
   width: 120px;
   color: dimgrey;
-  margin-top: 50px;
 `
 const Sign = styled.div`
   width: 120px;
   color: dimgrey;
-  margin-top: 50px;
   text-align: center;
   margin-right: 70px;
 `
@@ -73,28 +75,26 @@ const User = styled.div`
   flex-direction: row;
   justify-content: end;
 `
-const Div = styled.div`
+const UserName = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: right;
-  margin-right: 40px;
+  margin-left: 200px;
   height: 70px;
-  margin-top: 50px;
+  width: 55%;
   color: '#585858';
 `
 const Button = styled.button`
-  margin-right: 240px;
-  display: inline-block;
   outline: 0;
   cursor: pointer;
   border: none;
-  padding: 0 56px;
+  padding: 0 40px;
+  margin-left: 10px;
   height: 45px;
   line-height: 45px;
   border-radius: 7px;
   font-weight: 400;
   font-size: 16px;
-  margin-top: 40px;
   background: #fff;
   color: #696969;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
@@ -105,8 +105,6 @@ const Button = styled.button`
   }
 `
 const ButtonHome = styled.button`
-  /* margin-right: 240px; */
-  display: inline-block;
   outline: 0;
   cursor: pointer;
   border: none;
@@ -114,10 +112,8 @@ const ButtonHome = styled.button`
   height: 45px;
   line-height: 45px;
   border-radius: 7px;
-  font-weight: 400;
   font-size: 16px;
-  margin-top: 37px;
-  margin-left: 120px;
+  margin-left: 40px;
   background: #fff;
   color: #696969;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
@@ -127,5 +123,4 @@ const ButtonHome = styled.button`
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
 `
-
 export default Header

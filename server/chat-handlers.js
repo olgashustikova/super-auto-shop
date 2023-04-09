@@ -23,6 +23,7 @@ const addChat = async (request, response) => {
       to: request.body.to,
       from: request.body.from,
       text: request.body.text,
+      date: Date.now(),
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -68,8 +69,7 @@ const getChat = async (request, response) => {
     const collection = await db.collection('chat')
     const chatFromMongo = await collection
       .find({
-        to: credentials.name,
-        from: request.query.from,
+        $or: [{ from: request.query.otherUser }, { from: credentials.name }],
       })
       .toArray()
     if (!chatFromMongo) {

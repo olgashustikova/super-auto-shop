@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
+import { useContext } from 'react'
 
 const AdDetailsContent = ({ ad }) => {
+  const shopContext = useContext(ShopContext)
+
   return (
     <>
       <Container>
@@ -38,8 +41,8 @@ const AdDetailsContent = ({ ad }) => {
           <Link to="/">
             <Button>Back</Button>
           </Link>
-          {ShopContext.currentUser && (
-            <Link to={`/chat/:${ad.userName}`}>
+          {shopContext.currentUser && (
+            <Link to={`/chat/${ad.userName}`}>
               <Button>Send message</Button>
             </Link>
           )}

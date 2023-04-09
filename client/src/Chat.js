@@ -1,11 +1,10 @@
 import { useContext, useEffect, useState } from 'react'
 import ChatDetailsContent from './ChatDetailsContent'
 import styled from 'styled-components'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { ShopContext } from './ShopContext'
 
 const Chat = () => {
-  const [chat, setChat] = useState(null)
   const { fromUserName } = useParams()
   const [chatPersons, setChatPersons] = useState(null)
   const shopContext = useContext(ShopContext)
@@ -28,9 +27,22 @@ const Chat = () => {
       <Main>
         <Names>
           {chatPersons &&
-            chatPersons.map((person) => <Name key={person}>{person}</Name>)}
+            chatPersons.map((person) => (
+              <Link
+                to={`/chat/${person}`}
+                style={{
+                  textDecoration: 'none',
+                  color: 'white',
+                  textAlign: 'center',
+                }}
+              >
+                <Name key={person}>{person}</Name>
+              </Link>
+            ))}
         </Names>
-        <ChatDetailsContent fromUserName={fromUserName}></ChatDetailsContent>
+        {fromUserName && (
+          <ChatDetailsContent fromUserName={fromUserName}></ChatDetailsContent>
+        )}
       </Main>
     </Container>
   )
@@ -41,7 +53,7 @@ export default Chat
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 90vh;
   font-family: Arial, Helvetica, sans-serif;
 `
 const Main = styled.div`

@@ -16,7 +16,7 @@ const HomePage = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100vh;
   width: 100%;
-  height: 1300px;
 `
 export default HomePage

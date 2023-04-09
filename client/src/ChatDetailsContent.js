@@ -6,44 +6,43 @@ import { Buffer } from 'buffer'
 const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
   const [chatText, setChatText] = useState('')
-  const [messages, setMessages] = useState(null)
+  const [chatMessages, setChatMessages] = useState(null)
+  const [messageSendSwitch, setMessageSendSwitch] = useState(false)
 
   useEffect(() => {
-    fetch(`/api/get-chats-persons`, {
+    fetch(`/api/get-chat/?otherUser=${fromUserName}`, {
       headers: {
         Authorization: shopContext.prepareBasicHeader(),
       },
     })
       .then((response) => response.json())
       .then((responseObject) => {
-        setMessages(responseObject.data)
+        setChatMessages(responseObject.data)
       })
-      .catch((err) => alert(err))
-  }, [])
+      .catch((err) => alert('ERROR: ' + err))
+  }, [messageSendSwitch])
 
   const textInputOnCHange = (event) => {
     setChatText(event.target.value)
   }
 
   const handleSubmit = async () => {
-    const encodedCredentials = Buffer.from(
-      `${shopContext.currentUser}:${shopContext.currentPassword}`
-    ).toString('base64')
     try {
       const response = await fetch('/api/add-chat', {
         headers: {
-          Authorization: `Basic ${encodedCredentials}`,
+          Authorization: shopContext.prepareBasicHeader(),
           'Content-Type': 'application/json',
         },
         method: 'POST',
         body: JSON.stringify({
           text: chatText,
-          to: 'Bit@test.com',
+          to: fromUserName,
           from: shopContext.currentUser,
         }),
       })
       const data = await response.json()
       console.log(data)
+      setMessageSendSwitch(!messageSendSwitch)
     } catch (error) {
       console.error(error)
     }
@@ -52,21 +51,17 @@ const ChatDetailsContent = ({ fromUserName }) => {
     <>
       <Container>
         <Messages>
-          <NameOfUser>Chat with Ben</NameOfUser>
-          <Message>
-            <NameOfUserInChat>Ben</NameOfUserInChat>
-            <TextOfChat>How are you?</TextOfChat>
-          </Message>
-          <Message>
-            <NameOfUserInChat>Me</NameOfUserInChat>
-            <TextOfChat>Hi</TextOfChat>
-          </Message>
-          <Message>
-            <NameOfUserInChat>Ben</NameOfUserInChat>
-            <TextOfChat>Hello</TextOfChat>
-          </Message>
+          <NameOfUser>Chat with {fromUserName}</NameOfUser>
+          {chatMessages &&
+            chatMessages.map((item) => {
+              return (
+                <Message>
+                  <NameOfUserInChat>{item.from}</NameOfUserInChat>
+                  <TextOfChat>{item.text}</TextOfChat>
+                </Message>
+              )
+            })}
         </Messages>
-
         <Bottom>
           <ChatInput onChange={textInputOnCHange} type="text"></ChatInput>
           <Button onClick={handleSubmit}>Ok</Button>
@@ -81,12 +76,7 @@ export default ChatDetailsContent
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center;
-  margin-top: 50px;
-  height: 1200px;
-  width: 100%;
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif; */
+
   flex-grow: 1;
 `
 const NameOfUserInChat = styled.div`
@@ -108,6 +98,7 @@ const Messages = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: scroll;
 `
 const Message = styled.div`
   border: 1px solid grey;
@@ -152,7 +143,6 @@ const Button = styled.button`
   border-radius: 7px;
   font-weight: 400;
   font-size: 16px;
-  /* margin-top: 40px; */
   background: #fff;
   color: #696969;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
