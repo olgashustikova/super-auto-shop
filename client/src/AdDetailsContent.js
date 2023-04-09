@@ -29,24 +29,21 @@ const AdDetailsContent = ({ ad }) => {
             <Row2>{ad.kilometres} km</Row2>
           </Kilometres>
           <SellerType>
-            <Row1>Seller type:</Row1>
+            <RowSeller>Seller type:</RowSeller>
             <Row2> {ad.sellerType}</Row2>
+            <Buttons>
+              {shopContext.currentUser && (
+                <Link to={`/chat/${ad.userName}`}>
+                  <Button>Send message</Button>
+                </Link>
+              )}
+            </Buttons>
           </SellerType>
         </Information>
         <Description>
           <Row1Description>Description:</Row1Description>
           <Row2> {ad.description}</Row2>
         </Description>
-        <Buttons>
-          <Link to="/">
-            <Button>Back</Button>
-          </Link>
-          {shopContext.currentUser && (
-            <Link to={`/chat/${ad.userName}`}>
-              <Button>Send message</Button>
-            </Link>
-          )}
-        </Buttons>
       </Container>
     </>
   )
@@ -69,6 +66,7 @@ const Image = styled.img`
 const Information = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: left;
   width: 900px;
   font-weight: 500;
   font-size: 25px;
@@ -97,6 +95,11 @@ const Row1 = styled.div`
   font-weight: 600;
   font-size: 20px;
 `
+const RowSeller = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  margin-right: 360px;
+`
 const Row2 = styled.div`
   font-size: 17px;
   text-align: left;
@@ -111,7 +114,7 @@ const BodyType = styled.div`
   margin-left: 20px;
 `
 const SellerType = styled.div`
-  margin-left: 40px;
+  margin-left: 20px;
   margin-top: 20px;
 `
 const Row1Description = styled.div`
@@ -124,10 +127,12 @@ const Description = styled.div`
   text-align: left;
   width: 900px;
   line-height: 1.5;
+  margin-bottom: 50px;
 `
 const Button = styled.button`
-  display: inline-block;
-  margin-left: 250px;
+  margin-left: 150px;
+
+  flex-direction: row;
   outline: 0;
   cursor: pointer;
   border: none;
@@ -137,7 +142,6 @@ const Button = styled.button`
   border-radius: 7px;
   font-weight: 400;
   font-size: 16px;
-  margin-top: 40px;
   background: #fff;
   color: #696969;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
@@ -149,5 +153,6 @@ const Button = styled.button`
 `
 const Buttons = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-top: -40px;
 `

@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
 import { useContext, useEffect, useState } from 'react'
-import { Buffer } from 'buffer'
 
 const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
@@ -55,7 +54,9 @@ const ChatDetailsContent = ({ fromUserName }) => {
           {chatMessages &&
             chatMessages.map((item) => {
               return (
-                <Message>
+                <Message
+                  color={item.from === fromUserName ? '#53c653' : '#80b3ff'}
+                >
                   <NameOfUserInChat>{item.from}</NameOfUserInChat>
                   <TextOfChat>{item.text}</TextOfChat>
                 </Message>
@@ -113,7 +114,7 @@ const Message = styled.div`
   height: 65px;
   padding: 10px;
   border-radius: 4px;
-  background-color: #8ab375;
+  background-color: ${(props) => props.color};
   color: white;
 `
 const Bottom = styled.div`

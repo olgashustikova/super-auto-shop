@@ -34,10 +34,10 @@ const Header = () => {
         ) : (
           <Main>
             <Link to="/login" style={{ textDecoration: 'none' }}>
-              <Login>Login</Login>
+              <Button>Login</Button>
             </Link>
             <Link to="/signup" style={{ textDecoration: 'none' }}>
-              <Sign>Sign Up</Sign>
+              <Button>Sign Up</Button>
             </Link>
           </Main>
         )}
@@ -50,6 +50,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 6vh;
+  margin-top: 20px;
 `
 const Main = styled.div`
   display: flex;
@@ -59,16 +60,6 @@ const Main = styled.div`
   background-color: white;
   font-size: 25px;
   font-weight: bold;
-`
-const Login = styled.div`
-  width: 120px;
-  color: dimgrey;
-`
-const Sign = styled.div`
-  width: 120px;
-  color: dimgrey;
-  text-align: center;
-  margin-right: 70px;
 `
 const User = styled.div`
   display: flex;
@@ -83,6 +74,7 @@ const UserName = styled.div`
   height: 70px;
   width: 55%;
   color: '#585858';
+  margin-top: 17px;
 `
 const Button = styled.button`
   outline: 0;
