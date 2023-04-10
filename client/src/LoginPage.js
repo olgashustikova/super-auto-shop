@@ -47,10 +47,12 @@ const LoginPage = () => {
         shopContext.setCurrentPassword(password)
         navigate('/')
       } else {
-        alert(`ERROR: ${data.error}`)
+        shopContext.setError(data.error)
+        navigate('/error')
       }
     } catch (error) {
-      alert(`ERROR: ${error}`)
+      shopContext.setError(error.message)
+      navigate('/error')
     }
   }
   return (

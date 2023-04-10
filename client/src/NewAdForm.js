@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
-import { Buffer } from 'buffer'
 import { ShopContext } from './ShopContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -115,7 +114,8 @@ const NewAdForm = () => {
       const data = await response.json()
       console.log(data)
     } catch (error) {
-      console.error(error)
+      shopContext.setError(error.message)
+      navigate('/error')
     }
   }
   return (

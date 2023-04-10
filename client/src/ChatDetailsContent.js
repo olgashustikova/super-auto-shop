@@ -1,12 +1,14 @@
 import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
 import { useContext, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
   const [chatText, setChatText] = useState('')
   const [chatMessages, setChatMessages] = useState(null)
   const [messageSendSwitch, setMessageSendSwitch] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch(`/api/get-chat/?otherUser=${fromUserName}`, {
@@ -18,7 +20,10 @@ const ChatDetailsContent = ({ fromUserName }) => {
       .then((responseObject) => {
         setChatMessages(responseObject.data)
       })
-      .catch((err) => alert('ERROR: ' + err))
+      .catch((err) => {
+        shopContext.setError(err.message)
+        navigate('/error')
+      })
   }, [messageSendSwitch])
 
   const textInputOnCHange = (event) => {

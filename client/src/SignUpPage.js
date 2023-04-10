@@ -71,10 +71,12 @@ const SignUpPage = () => {
       if (data.status === 200) {
         navigate('/')
       } else {
-        alert('ERROR: ' + data.status)
+        shopContext.setError(data.error)
+        navigate('/error')
       }
     } catch (error) {
-      console.error(error)
+      shopContext.setError(error.message)
+      navigate('/error')
     }
   }
   return (

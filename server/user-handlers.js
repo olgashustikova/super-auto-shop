@@ -87,7 +87,7 @@ const userBasicAuthCheck = async (req, res, next) => {
     } else {
       return res
         .status(401)
-        .json({ status: 404, error: 'Authentication required' })
+        .json({ status: 401, error: 'Authentication required' })
     }
   } catch (err) {
     return res.status(500).json({ status: 404, error: err })

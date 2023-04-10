@@ -3,11 +3,13 @@ import ChatDetailsContent from './ChatDetailsContent'
 import styled from 'styled-components'
 import { Link, useParams } from 'react-router-dom'
 import { ShopContext } from './ShopContext'
+import { useNavigate } from 'react-router-dom'
 
 const Chat = () => {
   const { fromUserName } = useParams()
   const [chatPersons, setChatPersons] = useState(null)
   const shopContext = useContext(ShopContext)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('/api/get-chats-persons', {
@@ -19,7 +21,10 @@ const Chat = () => {
       .then((responseObject) => {
         setChatPersons(responseObject.data)
       })
-      .catch((err) => alert(err))
+      .catch((err) => {
+        shopContext.setError(err.message)
+        navigate('/error')
+      })
   }, [])
 
   return (
