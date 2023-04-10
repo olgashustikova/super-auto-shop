@@ -80,24 +80,24 @@ const SignUpPage = () => {
   return (
     <>
       <Wrapper>
-        <LabelOfFirstName>First Name</LabelOfFirstName>
+        <Label>First Name</Label>
         <FirstName onChange={firstNameChangeHandler}></FirstName>
         {errors.firstName && (
           <Error className="error">{errors.firstName}</Error>
         )}
-        <LabelOfLastName>Last Name</LabelOfLastName>
+        <Label>Last Name</Label>
         <LastName onChange={lastNameChangeHandler}></LastName>
         {errors.lastName && <Error className="error">{errors.lastName}</Error>}
-        <LabelOfEmail>Email</LabelOfEmail>
+        <Label>Email</Label>
         <Email onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
-        <LabelOfEmail>Address</LabelOfEmail>
+        <Label>Address</Label>
         <Email onChange={addressChangeHandler}></Email>
         {errors.address && <Error className="error">{errors.address}</Error>}
-        <LabelOfPassword>Password</LabelOfPassword>
+        <Label>Password</Label>
         <Password onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}
-        <Login onClick={submitHandler}>Login</Login>
+        <Login onClick={submitHandler}>Sign Up</Login>
       </Wrapper>
     </>
   )
@@ -110,7 +110,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin-top: 40px;
   margin-bottom: 70px;
-  margin-left: 400px;
+  margin-left: 700px;
   width: 500px;
   height: 650px;
   justify-content: center;
@@ -120,7 +120,7 @@ const Wrapper = styled.div`
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   background-color: #f9f9f9;
 `
-const LabelOfFirstName = styled.div`
+const Label = styled.div`
   margin-bottom: 10px;
 `
 const FirstName = styled.input`
@@ -129,26 +129,17 @@ const FirstName = styled.input`
   margin-bottom: 40px;
   height: 30px;
 `
-const LabelOfLastName = styled.div`
-  margin-bottom: 10px;
-`
 const LastName = styled.input`
   width: 180px;
   justify-content: center;
   margin-bottom: 40px;
   height: 30px;
 `
-const LabelOfEmail = styled.div`
-  margin-bottom: 10px;
-`
 const Email = styled.input`
   width: 180px;
   justify-content: center;
   margin-bottom: 40px;
   height: 30px;
-`
-const LabelOfPassword = styled.div`
-  margin-bottom: 10px;
 `
 const Password = styled.input`
   width: 180px;

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AdDetails from './AdDetails'
 import Chat from './Chat'
 import Header from './Header'
+import ErrorPage from './ErrorPage'
 import styled from 'styled-components'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/add-form" element={<NewAdForm />} />
           <Route path="/chat/:fromUserName" element={<Chat />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </Main>
     </BrowserRouter>

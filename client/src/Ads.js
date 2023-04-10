@@ -1,17 +1,24 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import AdPreview from './AdPreview'
 import { Link } from 'react-router-dom'
+import { ShopContext } from './ShopContext'
+import { useNavigate } from 'react-router-dom'
 
 const Ads = () => {
+  const shopContext = useContext(ShopContext)
   const [ads, setAds] = useState(null)
+  const navigate = useNavigate()
   useEffect(() => {
     fetch('/api/get-ads')
       .then((response) => response.json())
       .then((responseObject) => {
         setAds(responseObject.data)
       })
-      .catch((err) => alert(err))
+      .catch((err) => {
+        shopContext.setError(err.message)
+        navigate('/error')
+      })
   }, [])
   return (
     <>

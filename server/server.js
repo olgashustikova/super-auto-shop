@@ -39,6 +39,7 @@ express()
   .post('/api/add-chat', userBasicAuthCheck, addChat)
   .get('/api/get-chat', userBasicAuthCheck, getChat)
   .get('/api/get-chats-persons', userBasicAuthCheck, getAllChatPersonsForUser)
+
   .listen(4000, () => {
     console.log('Server started on port 4000')
   })

@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const AdDetailsContent = ({ ad }) => {
   const shopContext = useContext(ShopContext)
+  const navigate = useNavigate()
 
   const deleteAd = async () => {
     try {
@@ -16,10 +18,9 @@ const AdDetailsContent = ({ ad }) => {
       })
       const data = await response.json()
       if (data.status === 200) {
-        alert('ALL GOOD') // navigate("/")
+        navigate('/')
       } else {
-        alert('ERROR: ' + JSON.stringify(data))
-        // navigate to error component
+        navigate('/error')
       }
       console.log(data)
     } catch (error) {

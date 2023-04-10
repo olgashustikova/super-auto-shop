@@ -6,6 +6,7 @@ export const ShopContext = createContext(null)
 export const ShopProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null)
   const [currentPassword, setCurrentPassword] = useState(null)
+  const [error, setError] = useState('')
 
   const prepareBasicHeader = () => {
     const encodedCredentials = Buffer.from(
@@ -22,6 +23,8 @@ export const ShopProvider = ({ children }) => {
         currentPassword,
         setCurrentPassword,
         prepareBasicHeader,
+        error,
+        setError,
       }}
     >
       {children}
