@@ -59,16 +59,10 @@ const LoginPage = () => {
     <>
       <Wrapper onSubmit={submitHandler}>
         <LabelOfEmail>Email</LabelOfEmail>
-        <Email
-          defaultValue="Bit@test.com"
-          onChange={emailChangeHandler}
-        ></Email>
+        <Email onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
-        <Password
-          defaultValue="123456"
-          onChange={passwordChangeHandler}
-        ></Password>
+        <Password onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}
         <Login type="submit" value="Login" />
       </Wrapper>

@@ -53,7 +53,7 @@ const SignUpPage = () => {
     }
     const objectForPost = {
       firstName: firstName,
-      lastname: lastName,
+      lastName: lastName,
       address: address,
       email: email,
       password: password,

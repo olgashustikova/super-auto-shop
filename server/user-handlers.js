@@ -2,6 +2,7 @@
 const { uuid } = require('uuidv4')
 const basicAuth = require('basic-auth')
 require('dotenv').config()
+var crypto = require('crypto')
 const express = require('express')
 const { response } = require('express')
 const MongoClient = require('mongodb').MongoClient
@@ -28,7 +29,10 @@ const addUser = async (request, response) => {
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       email: request.body.email,
-      password: request.body.password,
+      password: crypto
+        .createHash('md5')
+        .update(request.body.password)
+        .digest('hex'),
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -71,6 +75,10 @@ const loginUser = async (request, response) => {
 const userBasicAuthCheck = async (req, res, next) => {
   const credentials = basicAuth(req)
   console.log(`user: ${credentials.name} passing through auth`)
+  const hashedPassword = crypto
+    .createHash('md5')
+    .update(credentials.pass)
+    .digest('hex')
 
   if (!credentials) {
     return res.status(401).send('Authentication required.')
@@ -82,7 +90,7 @@ const userBasicAuthCheck = async (req, res, next) => {
     const userFromMongo = await collection.findOne({
       email: credentials.name,
     })
-    if (userFromMongo && credentials.pass == userFromMongo.password) {
+    if (userFromMongo && hashedPassword === userFromMongo.password) {
       next()
     } else {
       return res

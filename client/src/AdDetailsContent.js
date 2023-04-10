@@ -51,8 +51,6 @@ const AdDetailsContent = ({ ad }) => {
             <Row2>{ad.kilometres} km</Row2>
           </Kilometres>
           <SellerType>
-            <RowSeller>Seller type:</RowSeller>
-            <Row2> {ad.sellerType}</Row2>
             <RowSeller>Seller:</RowSeller>
             <Row2> {ad.userName}</Row2>
             <Buttons>
@@ -159,8 +157,7 @@ const Description = styled.div`
   margin-bottom: 50px;
 `
 const Button = styled.button`
-  margin-left: 150px;
-
+  margin-left: 200px;
   flex-direction: row;
   outline: 0;
   cursor: pointer;
@@ -169,7 +166,7 @@ const Button = styled.button`
   height: 45px;
   line-height: 45px;
   border-radius: 7px;
-  font-weight: 400;
+  font-weight: 200;
   font-size: 16px;
   background: #fff;
   color: #696969;

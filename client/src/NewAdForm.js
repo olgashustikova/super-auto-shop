@@ -112,6 +112,7 @@ const NewAdForm = () => {
         body: formData,
       })
       const data = await response.json()
+      navigate('/')
       console.log(data)
     } catch (error) {
       shopContext.setError(error.message)
@@ -205,8 +206,8 @@ const NewAdForm = () => {
             <FieldError>
               <Description
                 onChange={descriptionChangeHandler}
-                rows="4"
-                cols="23"
+                rows="7"
+                cols="35"
               ></Description>
               {errors.description && (
                 <Error className="error">{errors.description}</Error>
@@ -277,7 +278,10 @@ const LabelOfBodyType = styled.div`
 const LabelOfSellerType = styled.div`
   margin-right: 20px;
 `
-const LabelOfDescription = styled.div``
+const LabelOfDescription = styled.div`
+  margin-top: 40px;
+  margin-right: 10px;
+`
 const Description = styled.textarea`
   margin-bottom: 40px;
 `

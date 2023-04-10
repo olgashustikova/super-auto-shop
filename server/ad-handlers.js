@@ -41,6 +41,7 @@ const addAd = async (request, response) => {
       model: request.body.model,
       year: request.body.year,
       price: request.body.price,
+      description: request.body.description,
       transmission: request.body.transmission,
       kilometres: request.body.kilometres,
       bodyType: request.body.bodyType,

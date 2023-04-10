@@ -77,13 +77,12 @@ const UserName = styled.div`
   margin-top: 17px;
 `
 const Button = styled.button`
-  outline: 0;
   cursor: pointer;
   border: none;
-  padding: 0 40px;
   margin-left: 10px;
   height: 45px;
-  line-height: 45px;
+  width: 150px;
+  line-height: 15px;
   border-radius: 7px;
   font-weight: 400;
   font-size: 16px;
