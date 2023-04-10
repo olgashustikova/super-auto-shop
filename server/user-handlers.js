@@ -10,6 +10,7 @@ const client = new MongoClient(uri)
 
 const addUser = async (request, response) => {
   try {
+    console.log(request.body)
     client.connect()
     const db = client.db('car-store')
     const collection = db.collection('users')

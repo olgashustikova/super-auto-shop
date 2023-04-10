@@ -6,6 +6,27 @@ import { useContext } from 'react'
 const AdDetailsContent = ({ ad }) => {
   const shopContext = useContext(ShopContext)
 
+  const deleteAd = async () => {
+    try {
+      const response = await fetch(`/api/delete-ad/${ad._id}`, {
+        headers: {
+          Authorization: shopContext.prepareBasicHeader(),
+        },
+        method: 'DELETE',
+      })
+      const data = await response.json()
+      if (data.status === 200) {
+        alert('ALL GOOD') // navigate("/")
+      } else {
+        alert('ERROR: ' + JSON.stringify(data))
+        // navigate to error component
+      }
+      console.log(data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <>
       <Container>
@@ -31,12 +52,19 @@ const AdDetailsContent = ({ ad }) => {
           <SellerType>
             <RowSeller>Seller type:</RowSeller>
             <Row2> {ad.sellerType}</Row2>
+            <RowSeller>Seller:</RowSeller>
+            <Row2> {ad.userName}</Row2>
             <Buttons>
-              {shopContext.currentUser && (
-                <Link to={`/chat/${ad.userName}`}>
-                  <Button>Send message</Button>
-                </Link>
-              )}
+              {shopContext.currentUser &&
+                shopContext.currentUser != ad.userName && (
+                  <Link to={`/chat/${ad.userName}`}>
+                    <Button>Send message</Button>
+                  </Link>
+                )}
+              {shopContext.currentUser &&
+                shopContext.currentUser == ad.userName && (
+                  <Button onClick={deleteAd}>Delete</Button>
+                )}
             </Buttons>
           </SellerType>
         </Information>

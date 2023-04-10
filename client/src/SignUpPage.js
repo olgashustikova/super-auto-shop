@@ -2,14 +2,17 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { ShopContext } from './ShopContext'
+import { useNavigate } from 'react-router-dom'
 
 const SignUpPage = () => {
+  const navigate = useNavigate()
   const shopContext = useContext(ShopContext)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
+  const [address, setAddress] = useState('')
 
   const firstNameChangeHandler = (event) => {
     setFirstName(event.target.value)
@@ -22,6 +25,9 @@ const SignUpPage = () => {
   }
   const passwordChangeHandler = (event) => {
     setPassword(event.target.value)
+  }
+  const addressChangeHandler = (event) => {
+    setAddress(event.target.value)
   }
   const submitHandler = async (event) => {
     event.preventDefault()
@@ -38,29 +44,35 @@ const SignUpPage = () => {
     if (password === '') {
       errorsObject.password = 'Password is required'
     }
+    if (address === '') {
+      errorsObject.address = 'Address is required'
+    }
     setErrors(errorsObject)
     if (Object.keys(errorsObject).length > 0) {
       return
     }
-    const formData = new FormData()
-    formData.append('firstName', firstName)
-    formData.append('lastname', lastName)
-    formData.append('email', email)
-    formData.append('password', password)
-
-    const encodedCredentials = Buffer.from(
-      `${shopContext.currentUser}:${shopContext.currentPassword}`
-    ).toString('base64')
+    const objectForPost = {
+      firstName: firstName,
+      lastname: lastName,
+      address: address,
+      email: email,
+      password: password,
+    }
+    alert(JSON.stringify(objectForPost))
     try {
-      const response = await fetch('/api/login-user', {
+      const response = await fetch('/api/add-user', {
         headers: {
-          Authorization: `Basic ${encodedCredentials}`,
+          'Content-Type': 'application/json',
         },
         method: 'POST',
-        body: formData,
+        body: JSON.stringify(objectForPost),
       })
       const data = await response.json()
-      console.log(data)
+      if (data.status === 200) {
+        navigate('/')
+      } else {
+        alert('ERROR: ' + data.status)
+      }
     } catch (error) {
       console.error(error)
     }
@@ -79,6 +91,9 @@ const SignUpPage = () => {
         <LabelOfEmail>Email</LabelOfEmail>
         <Email onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
+        <LabelOfEmail>Address</LabelOfEmail>
+        <Email onChange={addressChangeHandler}></Email>
+        {errors.address && <Error className="error">{errors.address}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
         <Password onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}

@@ -1,5 +1,5 @@
 const express = require('express')
-const { addAd, getAds, getAd } = require('./ad-handlers')
+const { addAd, getAds, getAd, deleteAd } = require('./ad-handlers')
 const {
   addChat,
   getChat,
@@ -35,6 +35,7 @@ express()
   .post('/api/add-ad', userBasicAuthCheck, upload.single('image'), addAd)
   .get('/api/get-ads', getAds)
   .get('/api/get-ad/:id', getAd)
+  .delete('/api/delete-ad/:id', deleteAd)
   .post('/api/add-chat', userBasicAuthCheck, addChat)
   .get('/api/get-chat', userBasicAuthCheck, getChat)
   .get('/api/get-chats-persons', userBasicAuthCheck, getAllChatPersonsForUser)

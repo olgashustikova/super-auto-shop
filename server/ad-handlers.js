@@ -14,19 +14,19 @@ cloudinary.config({
 })
 
 const addAd = async (request, response) => {
+  console.log(`Adding ad, request body:`)
   console.log(request.body)
-  console.log('--------------------------')
+  console.log(`request file:`)
   console.log(request.file)
   const res = await cloudinary.uploader
     .upload(request.file.path, {
       public_id: uuid(),
     })
     .then()
-  console.log(res.url)
-
+  console.log(`saved image result:`)
+  console.log(res)
   try {
     const credentials = basicAuth(request)
-
     if (!credentials) {
       return res.status(401).send('Authentication required.')
     }
@@ -46,6 +46,7 @@ const addAd = async (request, response) => {
       bodyType: request.body.bodyType,
       sellerType: request.body.sellerType,
       imageUrl: res.url,
+      imagePublicId: res.public_id,
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -98,4 +99,47 @@ const getAd = async (request, response) => {
   }
 }
 
-module.exports = { addAd, getAds, getAd }
+const deleteAd = async (request, response) => {
+  console.log('delete ad:')
+  console.log(request.params.id)
+  const credentials = basicAuth(request)
+
+  if (!credentials) {
+    return res.status(401).send('Authentication required.')
+  }
+
+  try {
+    await client.connect()
+    const db = client.db('car-store')
+    const collection = await db.collection('ads')
+    const adFromMongo = await collection.findOne({
+      _id: request.params.id,
+    })
+    if (!adFromMongo) {
+      return response.status(404).json({ status: 404, message: 'ad not found' })
+    }
+    if (adFromMongo.userName !== credentials.name) {
+      return res.status(401).send('no ad found for user')
+    }
+    console.log('delete from db')
+    await collection.deleteOne({
+      _id: request.params.id,
+    })
+    console.log('delete image from cloud')
+    const res = await cloudinary.uploader
+      .destroy(adFromMongo.imagePublicId)
+      .then()
+    console.log(`delete image result:`)
+    console.log(res)
+    return response
+      .status(200)
+      .json({ status: 200, data: adFromMongo, message: 'success' })
+  } catch (err) {
+    console.error(err)
+    return response
+      .status(500)
+      .json({ status: 500, message: `Internal Server Error: ${err}` })
+  }
+}
+
+module.exports = { addAd, getAds, getAd, deleteAd }

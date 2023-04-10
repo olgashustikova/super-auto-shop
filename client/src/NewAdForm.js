@@ -104,14 +104,10 @@ const NewAdForm = () => {
     formData.append('description', description)
     formData.append('image', imageFile)
 
-    const encodedCredentials = Buffer.from(
-      `${shopContext.currentUser}:${shopContext.currentPassword}`
-    ).toString('base64')
-
     try {
       const response = await fetch('/api/add-ad', {
         headers: {
-          Authorization: `Basic ${encodedCredentials}`,
+          Authorization: shopContext.prepareBasicHeader(),
         },
         method: 'POST',
         body: formData,
