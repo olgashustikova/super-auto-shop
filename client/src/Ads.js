@@ -9,8 +9,62 @@ const Ads = () => {
   const shopContext = useContext(ShopContext)
   const [ads, setAds] = useState(null)
   const navigate = useNavigate()
+  const [make, setMake] = useState('')
+  const [minPrise, setMinPrice] = useState(0)
+  const [maxPrise, setMaxPrice] = useState(0)
+  const [bodyType, setBodyType] = useState('')
+  const [maxKm, setMaxKm] = useState(0)
+
+  const [searchChangeSwitch, setSearchChangeSwitch] = useState(false)
+
+  const search = () => {
+    setSearchChangeSwitch(!searchChangeSwitch)
+  }
+
+  const onMakeChange = (event) => {
+    setMake(event.target.value)
+  }
+
+  const onMinPriceChange = (event) => {
+    setMinPrice(parseInt(event.target.value))
+  }
+
+  const onMaxPriceChange = (event) => {
+    setMaxPrice(parseInt(event.target.value))
+  }
+
+  const onBodyTypeChange = (event) => {
+    setBodyType(event.target.value)
+  }
+
+  const onMaxKmChange = (event) => {
+    setMaxKm(parseInt(event.target.value))
+  }
+
   useEffect(() => {
-    fetch('/api/get-ads')
+    let query = '/api/get-ads'
+    let queryParams = []
+    if (make) {
+      queryParams.push(`make=${make}`)
+    }
+    if (minPrise) {
+      queryParams.push(`minPrise=${minPrise}`)
+    }
+    if (maxPrise) {
+      queryParams.push(`maxPrise=${maxPrise}`)
+    }
+    if (maxKm) {
+      queryParams.push(`maxKm=${maxKm}`)
+    }
+    if (bodyType) {
+      queryParams.push(`bodyType=${bodyType}`)
+    }
+
+    if (queryParams.length > 0) {
+      query += `?${queryParams.join('&')}`
+    }
+    alert(query)
+    fetch(query)
       .then((response) => response.json())
       .then((responseObject) => {
         setAds(responseObject.data)
@@ -19,22 +73,22 @@ const Ads = () => {
         shopContext.setError(err.message)
         navigate('/error')
       })
-  }, [])
+  }, [searchChangeSwitch])
   return (
     <>
       <Main>
         <Row>
           <Label>make</Label>
-          <Input></Input>
+          <Input onChange={onMakeChange}></Input>
           <Label>min price</Label>
-          <Input></Input>
+          <Input onChange={onMinPriceChange}></Input>
           <Label>max price</Label>
-          <Input></Input>
+          <Input onChange={onMaxPriceChange}></Input>
           <Label>max km</Label>
-          <Input></Input>
+          <Input onChange={onMaxKmChange}></Input>
           <Label>body type</Label>
-          <Input></Input>
-          <Button>Search</Button>
+          <Input onChange={onBodyTypeChange}></Input>
+          <Button onClick={search}>Search</Button>
         </Row>
         {ads ? (
           <Wrapper>

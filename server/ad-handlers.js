@@ -66,6 +66,32 @@ const getAds = async (request, response) => {
     const adsCollection = db.collection('ads')
     // create mongo query
     let mongoQuery = {}
+    if (request.query.make) {
+      mongoQuery.make = request.query.make
+    }
+    if (request.query.maxPrise) {
+      if (!mongoQuery.price) {
+        mongoQuery.price = { $lte: request.query.maxPrise }
+      } else {
+        mongoQuery.price['$lte'] = request.query.maxPrise
+      }
+    }
+    if (request.query.minPrise) {
+      if (!mongoQuery.price) {
+        mongoQuery.price = { $lte: request.query.minPrise }
+      } else {
+        mongoQuery.price['$gte'] = request.query.minPrise
+      }
+    }
+    if (request.query.maxKm) {
+      mongoQuery.price = { $gte: request.query.minPrise }
+    }
+    if (request.query.bodyType) {
+      mongoQuery.bodyType = request.query.bodyType
+    }
+    console.log(
+      `perform ads search with mongo query: ${JSON.stringify(mongoQuery)}`
+    )
     // find ads by mongo query
     const ads = await adsCollection.find(mongoQuery).toArray()
     return response
