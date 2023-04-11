@@ -34,6 +34,7 @@ const Ads = () => {
           <Input></Input>
           <Label>body type</Label>
           <Input></Input>
+          <Button>Search</Button>
         </Row>
         {ads ? (
           <Wrapper>
@@ -66,10 +67,11 @@ const Main = styled.div`
   margin-top: 10px;
   background-color: lightgrey;
   height: 100%;
+  padding-bottom: 70px;
 `
 const Wrapper = styled.div`
   display: grid;
-  gap: 100px;
+  gap: 80px;
   margin-top: 60px;
   grid-template-columns: repeat(4, 300px);
 `
@@ -97,4 +99,25 @@ const Input = styled.input`
   border-radius: 7px;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   border: none;
+`
+const Button = styled.button`
+  margin-left: 20px;
+  flex-direction: row;
+  outline: 0;
+  cursor: pointer;
+  border: none;
+  height: 25px;
+  margin-top: 9px;
+  border-radius: 7px;
+  font-size: 16px;
+  text-align: center;
+  background: #fff;
+  color: #585858;
+  font-weight: bold;
+  box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  :hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
+  }
 `

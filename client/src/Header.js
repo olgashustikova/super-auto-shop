@@ -45,6 +45,7 @@ const Header = () => {
             </Link>
           </Main>
         )}
+        <Title>Super auto-shop</Title>
       </Wrapper>
     </>
   )
@@ -122,5 +123,14 @@ const ButtonHome = styled.button`
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
+`
+const Title = styled.div`
+  color: #747471;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 60px;
+  font-weight: 700;
+  text-align: left;
+  width: 100%;
+  text-transform: uppercase;
 `
 export default Header

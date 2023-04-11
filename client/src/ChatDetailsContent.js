@@ -107,7 +107,6 @@ const NameOfUser = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* border-bottom: 1px solid grey; */
   color: #585858;
   font-weight: bold;
   font-size: 20px;

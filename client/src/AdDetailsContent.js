@@ -101,6 +101,7 @@ const Information = styled.div`
 `
 const Make = styled.div`
   margin-top: 40px;
+  margin-right: 13px;
 `
 const Model = styled.div`
   margin-top: 40px;
