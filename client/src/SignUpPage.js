@@ -58,7 +58,6 @@ const SignUpPage = () => {
       email: email,
       password: password,
     }
-    alert(JSON.stringify(objectForPost))
     try {
       const response = await fetch('/api/add-user', {
         headers: {

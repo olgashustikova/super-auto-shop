@@ -63,7 +63,6 @@ const Ads = () => {
     if (queryParams.length > 0) {
       query += `?${queryParams.join('&')}`
     }
-    alert(query)
     fetch(query)
       .then((response) => response.json())
       .then((responseObject) => {

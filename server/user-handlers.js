@@ -9,6 +9,29 @@ const MongoClient = require('mongodb').MongoClient
 const uri = process.env.Mongo_URI
 const client = new MongoClient(uri)
 
+const opencage = require('opencage-api-client')
+
+const verifyAddress = (address) => {
+  const requestObj = {
+    q: address,
+    key: process.env.OPENCAGE_KEY,
+  }
+  return opencage
+    .geocode(requestObj)
+    .then((data) => {
+      console.log('ADDRESS VALIDATION: !!!!!!!!!!!!!')
+      console.log(JSON.stringify(data.results))
+      if (!data.results || data.results.length === 0) {
+        return false
+      } else {
+        return true
+      }
+    })
+    .catch((error) => {
+      return false
+    })
+}
+
 const addUser = async (request, response) => {
   try {
     console.log(request.body)
@@ -21,14 +44,23 @@ const addUser = async (request, response) => {
     if (userFromMongo) {
       return response.status(500).json({
         status: 500,
-        message: `User with email: ${request.body.email} already exists`,
+        error: `User with email: ${request.body.email} already exists`,
       })
     }
+
+    if (!(await verifyAddress(request.body.address))) {
+      return response.status(500).json({
+        status: 500,
+        error: `Address does not exists: ${request.body.address}`,
+      })
+    }
+
     const objectToInsert = {
       _id: uuid(),
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       email: request.body.email,
+      address: request.body.address,
       password: crypto
         .createHash('md5')
         .update(request.body.password)
@@ -38,7 +70,7 @@ const addUser = async (request, response) => {
   } catch (err) {
     return response
       .status(500)
-      .json({ status: 500, message: `Internal Server Error: ${err}` })
+      .json({ status: 500, error: `Internal Server Error: ${err}` })
   }
   console.log(request.body)
   return response.status(200).json({ status: 200, message: 'ok' })
@@ -55,7 +87,7 @@ const getUser = async (request, response) => {
     if (!userFromMongo) {
       return response
         .status(404)
-        .json({ status: 404, message: 'email not found' })
+        .json({ status: 404, error: 'email not found' })
     }
     return response
       .status(200)
@@ -64,7 +96,7 @@ const getUser = async (request, response) => {
     console.error(err)
     return response
       .status(500)
-      .json({ status: 500, message: `Internal Server Error: ${err}` })
+      .json({ status: 500, error: `Internal Server Error: ${err}` })
   }
 }
 
@@ -81,7 +113,9 @@ const userBasicAuthCheck = async (req, res, next) => {
     .digest('hex')
 
   if (!credentials) {
-    return res.status(401).send('Authentication required.')
+    return res
+      .status(401)
+      .json({ status: 401, error: 'Authentication required.' })
   }
   try {
     await client.connect()
