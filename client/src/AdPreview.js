@@ -8,7 +8,7 @@ const AdPreview = ({ ad }) => {
         <Configuration>
           <Row>{ad.make}</Row>
           <Row>{ad.model}</Row>
-          <Price>{ad.price} $</Price>
+          <Price>{ad.price}$</Price>
         </Configuration>
         <AdditionalInformation>
           <Information>
@@ -54,9 +54,8 @@ const Configuration = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 35px;
-  align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 17px;
   color: #585858;
   font-weight: bold;
 `
@@ -70,10 +69,10 @@ const AdditionalInformation = styled.div`
   justify-content: space-around;
 `
 const Row = styled.div`
-  margin-right: 15px;
+  margin-right: 5px;
 `
 const Price = styled.div`
-  font-size: 23px;
+  font-size: 20px;
 `
 const Information = styled.div`
   display: flex;
