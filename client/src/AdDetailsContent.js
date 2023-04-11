@@ -78,12 +78,12 @@ const AdDetailsContent = ({ ad }) => {
 export default AdDetailsContent
 
 const Container = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 1300px;
   text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
 `
 const Image = styled.img`
   width: 60%;

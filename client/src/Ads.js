@@ -23,6 +23,18 @@ const Ads = () => {
   return (
     <>
       <Main>
+        <Row>
+          <Label>make</Label>
+          <Input></Input>
+          <Label>min price</Label>
+          <Input></Input>
+          <Label>max price</Label>
+          <Input></Input>
+          <Label>max km</Label>
+          <Input></Input>
+          <Label>body type</Label>
+          <Input></Input>
+        </Row>
         {ads ? (
           <Wrapper>
             {ads.map((ad) => {
@@ -47,6 +59,7 @@ const Ads = () => {
 export default Ads
 
 const Main = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,8 +71,32 @@ const Wrapper = styled.div`
   display: grid;
   margin-left: 160px;
   gap: 40px;
-  margin-top: 100px;
+  margin-top: 60px;
 
   grid-template-columns: repeat(4, 300px);
 `
 const Loading = styled.div``
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: #a8a8a8;
+  width: 100%;
+`
+const Label = styled.div`
+  height: 35px;
+  text-align: center;
+  align-items: center;
+  margin-top: 12px;
+  margin-left: 10px;
+  margin-right: 5px;
+  color: #404040;
+  font-weight: 600;
+`
+const Input = styled.input`
+  height: 25px;
+  margin-top: 9px;
+  border-radius: 7px;
+  box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+  border: none;
+`

@@ -38,7 +38,7 @@ const Chat = () => {
                 style={{
                   textDecoration: 'none',
                   color: 'white',
-                  textAlign: 'center',
+                  textAlign: 'left',
                 }}
               >
                 <Name key={person}>{person}</Name>
@@ -56,10 +56,10 @@ const Chat = () => {
 export default Chat
 
 const Container = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   height: 90vh;
-  font-family: Arial, Helvetica, sans-serif;
 `
 const Main = styled.div`
   display: flex;
@@ -69,13 +69,13 @@ const Main = styled.div`
   border: 1px solid grey;
 `
 const Names = styled.div`
-  /* overflow-y: scroll; */
   width: 25%;
-  background-color: #585858;
+  background-color: #a8a8a8;
   color: white;
 `
 const Name = styled.div`
   height: 7%;
-  margin-top: 15px;
+  margin-top: 20px;
   border-bottom: 1px solid grey;
+  margin-left: 20px;
 `

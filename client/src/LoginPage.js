@@ -71,6 +71,7 @@ const LoginPage = () => {
 }
 
 const Wrapper = styled.form`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   text-align: center;

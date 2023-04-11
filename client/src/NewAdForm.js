@@ -124,14 +124,14 @@ const NewAdForm = () => {
       <Main>
         <Wrapper onSubmit={submitHandler}>
           <Field>
-            <LabelOfMake>Make</LabelOfMake>
+            <Label>Make</Label>
             <FieldError>
               <Configuration onChange={makeChangeHandler}></Configuration>
               {errors.make && <Error className="error">{errors.make}</Error>}
             </FieldError>
           </Field>
           <Field>
-            <LabelOfModel>Model</LabelOfModel>
+            <Label>Model</Label>
             <FieldError>
               <Configuration onChange={modelChangeHandler}></Configuration>
               {errors.model && <Error className="error">{errors.model}</Error>}
@@ -222,6 +222,7 @@ const NewAdForm = () => {
   )
 }
 const Main = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -246,12 +247,10 @@ const Field = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  color: #585858;
+  font-weight: bold;
 `
-const LabelOfMake = styled.div`
-  margin-right: 40px;
-`
-
-const LabelOfModel = styled.div`
+const Label = styled.div`
   margin-right: 40px;
 `
 const Configuration = styled.input`
@@ -301,7 +300,8 @@ const Login = styled.input`
   font-size: 16px;
   margin-left: 100px;
   background: #fff;
-  color: #696969;
+  color: #585858;
+  font-weight: bold;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {

@@ -33,7 +33,6 @@ const Header = () => {
               </Link>
               <Button onClick={signOut}>Sign Out</Button>
             </User>
-
             <UserName>{shopContext.currentUser}</UserName>
           </>
         ) : (
@@ -52,9 +51,10 @@ const Header = () => {
 }
 
 const Wrapper = styled.div`
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: row;
-  height: 6vh;
+  height: 10vh;
   margin-top: 20px;
   margin-bottom: 35px;
 `
@@ -79,8 +79,11 @@ const UserName = styled.div`
   margin-left: 200px;
   height: 70px;
   width: 55%;
-  color: '#585858';
   margin-top: 17px;
+  color: #585858;
+  font-weight: bold;
+  margin-right: 20px;
+  font-size: 23px;
 `
 const Button = styled.button`
   cursor: pointer;
@@ -90,10 +93,10 @@ const Button = styled.button`
   width: 150px;
   line-height: 15px;
   border-radius: 7px;
-  font-weight: 400;
+  font-weight: bold;
   font-size: 16px;
   background: #fff;
-  color: #696969;
+  color: #585858;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {
@@ -110,9 +113,10 @@ const ButtonHome = styled.button`
   line-height: 45px;
   border-radius: 7px;
   font-size: 16px;
+  font-weight: bold;
   margin-left: 40px;
   background: #fff;
-  color: #696969;
+  color: #585858;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {
