@@ -121,6 +121,8 @@ const Wrapper = styled.div`
   padding: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   background-color: #f9f9f9;
+  color: #585858;
+  font-weight: bold;
 `
 const Label = styled.div`
   margin-bottom: 10px;
@@ -162,7 +164,8 @@ const Login = styled.button`
   font-weight: 400;
   font-size: 16px;
   background: #fff;
-  color: #696969;
+  color: #585858;
+  font-weight: bold;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {

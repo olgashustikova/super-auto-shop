@@ -71,6 +71,8 @@ const Main = styled.div`
 const Names = styled.div`
   width: 25%;
   background-color: #a8a8a8;
+  font-weight: bold;
+  font-size: 20px;
   color: white;
 `
 const Name = styled.div`

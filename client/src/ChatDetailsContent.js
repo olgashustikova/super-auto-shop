@@ -69,7 +69,7 @@ const ChatDetailsContent = ({ fromUserName }) => {
             chatMessages.map((item) => {
               return (
                 <Message
-                  color={item.from === fromUserName ? '#53c653' : '#80b3ff'}
+                  color={item.from === fromUserName ? '#ffffcc' : '#B8B8B8'}
                 >
                   <NameOfUserInChat>{item.from}</NameOfUserInChat>
                   <TextOfChat>{item.text}</TextOfChat>
@@ -77,10 +77,10 @@ const ChatDetailsContent = ({ fromUserName }) => {
               )
             })}
         </Messages>
-        <Bottom>
+        <BottomLine>
           <ChatInput onChange={textInputOnCHange} type="text"></ChatInput>
           <Button onClick={handleSubmit}>Ok</Button>
-        </Bottom>
+        </BottomLine>
       </Container>
     </>
   )
@@ -92,7 +92,6 @@ const Container = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-
   flex-grow: 1;
 `
 const NameOfUserInChat = styled.div`
@@ -108,7 +107,10 @@ const NameOfUser = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-bottom: 1px solid grey;
+  /* border-bottom: 1px solid grey; */
+  color: #585858;
+  font-weight: bold;
+  font-size: 20px;
 `
 const Messages = styled.div`
   display: flex;
@@ -130,13 +132,12 @@ const Message = styled.div`
   padding: 10px;
   border-radius: 4px;
   background-color: ${(props) => props.color};
-  color: white;
+  color: #404040;
 `
-const Bottom = styled.div`
+const BottomLine = styled.div`
   border-bottom: 1px solid grey;
   border-right: 1px solid grey;
   border-left: 1px solid grey;
-
   height: 50px;
   background-color: #e5e5ea;
   display: flex;
@@ -144,9 +145,10 @@ const Bottom = styled.div`
 `
 const ChatInput = styled.input`
   height: 44px;
-  background-color: #e5e5ea;
+  background-color: #b8b8b8;
   border: hidden;
   flex: 1;
+  font-size: 17px;
 `
 const Button = styled.button`
   width: 140px;
@@ -157,10 +159,10 @@ const Button = styled.button`
   height: 50px;
   line-height: 45px;
   border-radius: 7px;
-  font-weight: 400;
   font-size: 16px;
   background: #fff;
-  color: #696969;
+  color: #585858;
+  font-weight: bold;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {

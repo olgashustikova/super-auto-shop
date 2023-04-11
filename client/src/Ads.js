@@ -69,10 +69,8 @@ const Main = styled.div`
 `
 const Wrapper = styled.div`
   display: grid;
-  margin-left: 160px;
-  gap: 40px;
+  gap: 100px;
   margin-top: 60px;
-
   grid-template-columns: repeat(4, 300px);
 `
 const Loading = styled.div``

@@ -95,8 +95,9 @@ const Information = styled.div`
   flex-direction: row;
   justify-content: left;
   width: 900px;
-  font-weight: 500;
-  font-size: 25px;
+  font-size: 30px;
+  color: #585858;
+  font-weight: bold;
 `
 const Make = styled.div`
   margin-top: 40px;
@@ -147,7 +148,9 @@ const SellerType = styled.div`
 const Row1Description = styled.div`
   margin-bottom: 20px;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 30px;
+  color: #585858;
+  font-weight: bold;
 `
 const Description = styled.div`
   margin-top: 20px;
@@ -155,6 +158,8 @@ const Description = styled.div`
   width: 900px;
   line-height: 1.5;
   margin-bottom: 50px;
+  color: #585858;
+  font-weight: bold;
 `
 const Button = styled.button`
   margin-left: 200px;
@@ -169,7 +174,9 @@ const Button = styled.button`
   font-weight: 200;
   font-size: 16px;
   background: #fff;
-  color: #696969;
+  font-size: 20px;
+  color: #585858;
+  font-weight: bold;
   box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
   :hover {

@@ -6,8 +6,8 @@ const AdPreview = ({ ad }) => {
       <Container>
         <Image src={ad.imageUrl}></Image>
         <Configuration>
-          <Make>{ad.make}</Make>
-          <Model>{ad.model}</Model>
+          <Row>{ad.make}</Row>
+          <Row>{ad.model}</Row>
           <Price>{ad.price} $</Price>
         </Configuration>
         <AdditionalInformation>
@@ -56,27 +56,24 @@ const Configuration = styled.div`
   margin-top: 35px;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
+  font-size: 20px;
+  color: #585858;
   font-weight: bold;
 `
 const AdditionalInformation = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 20px;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   align-items: center;
   justify-content: space-around;
 `
-const Make = styled.div`
-  font-size: 17px;
-  margin-right: 15px;
-`
-const Model = styled.div`
+const Row = styled.div`
   margin-right: 15px;
 `
 const Price = styled.div`
-  font-size: 20px;
+  font-size: 23px;
 `
 const Information = styled.div`
   display: flex;

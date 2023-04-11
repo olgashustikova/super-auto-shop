@@ -54,9 +54,8 @@ const Wrapper = styled.div`
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: row;
-  height: 10vh;
+  height: 6vh;
   margin-top: 20px;
-  margin-bottom: 35px;
 `
 const Main = styled.div`
   display: flex;

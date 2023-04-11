@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Ads from './Ads'
-import Header from './Header'
 
 const HomePage = () => {
   return (
