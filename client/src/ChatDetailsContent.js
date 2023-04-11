@@ -11,15 +11,13 @@ const ChatDetailsContent = ({ fromUserName }) => {
   const navigate = useNavigate()
 
   const [timerChanged, setTimerChanged] = useState(false)
-  const [count, setCount] = useState(1)
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     alert(count)
-  //     setCount((count) => count + 1)
-  //   }, 10000)
-  //   return () => clearInterval(timer)
-  // }, [])
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimerChanged((prevValue) => !prevValue)
+    }, 10000)
+    return () => clearInterval(timer)
+  }, [])
 
   useEffect(() => {
     fetch(`/api/get-chat/?otherUser=${fromUserName}`, {

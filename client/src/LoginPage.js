@@ -62,7 +62,7 @@ const LoginPage = () => {
         <Email onChange={emailChangeHandler}></Email>
         {errors.email && <Error className="error">{errors.email}</Error>}
         <LabelOfPassword>Password</LabelOfPassword>
-        <Password onChange={passwordChangeHandler}></Password>
+        <Password type="password" onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}
         <Login type="submit" value="Login" />
       </Wrapper>
@@ -78,7 +78,7 @@ const Wrapper = styled.form`
   justify-content: center;
   margin-top: 70px;
   margin-bottom: 70px;
-  margin-left: 400px;
+  margin-left: 700px;
   border: 2px solid #ccc;
   border-radius: 4px;
   padding: 10px;

@@ -97,7 +97,7 @@ const SignUpPage = () => {
         <Email onChange={addressChangeHandler}></Email>
         {errors.address && <Error className="error">{errors.address}</Error>}
         <Label>Password</Label>
-        <Password onChange={passwordChangeHandler}></Password>
+        <Password type="password" onChange={passwordChangeHandler}></Password>
         {errors.password && <Error className="error">{errors.password}</Error>}
         <Login onClick={submitHandler}>Sign Up</Login>
       </Wrapper>
