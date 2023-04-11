@@ -10,6 +10,17 @@ const ChatDetailsContent = ({ fromUserName }) => {
   const [messageSendSwitch, setMessageSendSwitch] = useState(false)
   const navigate = useNavigate()
 
+  const [timerChanged, setTimerChanged] = useState(false)
+  const [count, setCount] = useState(1)
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     alert(count)
+  //     setCount((count) => count + 1)
+  //   }, 10000)
+  //   return () => clearInterval(timer)
+  // }, [])
+
   useEffect(() => {
     fetch(`/api/get-chat/?otherUser=${fromUserName}`, {
       headers: {
@@ -24,7 +35,7 @@ const ChatDetailsContent = ({ fromUserName }) => {
         shopContext.setError(err.message)
         navigate('/error')
       })
-  }, [messageSendSwitch])
+  }, [messageSendSwitch, fromUserName, timerChanged])
 
   const textInputOnCHange = (event) => {
     setChatText(event.target.value)

@@ -42,17 +42,30 @@ const getAllChatPersonsForUser = async (request, response) => {
     await client.connect()
     const db = client.db('car-store')
     const collection = await db.collection('chat')
-    const chatsFromMongo = await collection.distinct('from', {
+    const fromPersonsWhereWeTo = await collection.distinct('from', {
       to: credentials.name,
     })
-    if (!chatsFromMongo) {
+    const toPersonsWhereWeFrom = await collection.distinct('to', {
+      from: credentials.name,
+    })
+    let allPersonsTogether = new Set([
+      ...fromPersonsWhereWeTo,
+      ...toPersonsWhereWeFrom,
+    ])
+    if (allPersonsTogether.size === 0) {
       return response
         .status(404)
         .json({ status: 404, message: 'chat not found' })
     }
+    console.log('AAAAAAAAAAAAAAAAAAA : ')
+    console.log(allPersonsTogether)
     return response
       .status(200)
-      .json({ status: 200, data: chatsFromMongo, message: 'success' })
+      .json({
+        status: 200,
+        data: Array.from(allPersonsTogether),
+        message: 'success',
+      })
   } catch (err) {
     console.error(err)
     return response
@@ -63,13 +76,22 @@ const getAllChatPersonsForUser = async (request, response) => {
 
 const getChat = async (request, response) => {
   const credentials = basicAuth(request)
+  console.log('get chat:')
+  console.log(request.query)
   try {
     await client.connect()
     const db = client.db('car-store')
     const collection = await db.collection('chat')
     const chatFromMongo = await collection
       .find({
-        $or: [{ from: request.query.otherUser }, { from: credentials.name }],
+        $or: [
+          {
+            $and: [{ from: request.query.otherUser }, { to: credentials.name }],
+          },
+          {
+            $and: [{ to: request.query.otherUser }, { from: credentials.name }],
+          },
+        ],
       })
       .toArray()
     if (!chatFromMongo) {

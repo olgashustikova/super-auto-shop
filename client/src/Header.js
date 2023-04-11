@@ -6,6 +6,10 @@ import { useContext } from 'react'
 const Header = () => {
   const shopContext = useContext(ShopContext)
 
+  const signOut = () => {
+    shopContext.setCurrentUser(null)
+  }
+
   return (
     <>
       <Wrapper>
@@ -27,6 +31,7 @@ const Header = () => {
               >
                 <Button>My messages</Button>
               </Link>
+              <Button onClick={signOut}>Sign Out</Button>
             </User>
 
             <UserName>{shopContext.currentUser}</UserName>
@@ -51,6 +56,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   height: 6vh;
   margin-top: 20px;
+  margin-bottom: 35px;
 `
 const Main = styled.div`
   display: flex;

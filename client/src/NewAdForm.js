@@ -231,7 +231,7 @@ const Wrapper = styled.form`
   flex-direction: column;
   text-align: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-bottom: 70px;
   width: 600px;
   height: 950px;
