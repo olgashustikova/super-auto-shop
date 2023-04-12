@@ -43,11 +43,11 @@ const addAd = async (request, response) => {
       userName: credentials.name,
       make: request.body.make,
       model: request.body.model,
-      year: request.body.year,
-      price: request.body.price,
+      year: parseInt(request.body.year),
+      price: parseInt(request.body.price),
       description: request.body.description,
       transmission: request.body.transmission,
-      kilometres: request.body.kilometres,
+      kilometres: parseInt(request.body.kilometres),
       bodyType: request.body.bodyType,
       sellerType: request.body.sellerType,
       imageUrl: res.url, // save cloudinary URL
@@ -79,20 +79,20 @@ const getAds = async (request, response) => {
     }
     if (request.query.maxPrise) {
       if (!mongoQuery.price) {
-        mongoQuery.price = { $lte: request.query.maxPrise }
+        mongoQuery.price = { $lte: parseInt(request.query.maxPrise) }
       } else {
-        mongoQuery.price['$lte'] = request.query.maxPrise
+        mongoQuery.price['$lte'] = parseInt(request.query.maxPrise)
       }
     }
     if (request.query.minPrise) {
       if (!mongoQuery.price) {
-        mongoQuery.price = { $lte: request.query.minPrise }
+        mongoQuery.price = { $gte: parseInt(request.query.minPrise) }
       } else {
-        mongoQuery.price['$gte'] = request.query.minPrise
+        mongoQuery.price['$gte'] = parseInt(request.query.minPrise)
       }
     }
     if (request.query.maxKm) {
-      mongoQuery.price = { $gte: request.query.minPrise }
+      mongoQuery.price = { $gte: parseInt(request.query.minPrise) }
     }
     if (request.query.bodyType) {
       mongoQuery.bodyType = request.query.bodyType
