@@ -11,6 +11,8 @@ const client = new MongoClient(uri)
 
 const opencage = require('opencage-api-client')
 
+// general check if address is fine by using opencage API
+// if opencage API can find results, the address is acceptable
 const verifyAddress = (address) => {
   const requestObj = {
     q: address,
@@ -19,8 +21,6 @@ const verifyAddress = (address) => {
   return opencage
     .geocode(requestObj)
     .then((data) => {
-      console.log('ADDRESS VALIDATION: !!!!!!!!!!!!!')
-      console.log(JSON.stringify(data.results))
       if (!data.results || data.results.length === 0) {
         return false
       } else {
@@ -32,6 +32,7 @@ const verifyAddress = (address) => {
     })
 }
 
+// user signup
 const addUser = async (request, response) => {
   try {
     console.log(request.body)
@@ -64,7 +65,7 @@ const addUser = async (request, response) => {
       password: crypto
         .createHash('md5')
         .update(request.body.password)
-        .digest('hex'),
+        .digest('hex'), // save password as hash
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -76,6 +77,7 @@ const addUser = async (request, response) => {
   return response.status(200).json({ status: 200, message: 'ok' })
 }
 
+// find a user by username
 const getUser = async (request, response) => {
   try {
     await client.connect()
@@ -100,17 +102,22 @@ const getUser = async (request, response) => {
   }
 }
 
+// login user if endpoint returns 200 the user can login
+// this method goes after userBasicAuthCheck - wich could return a error
 const loginUser = async (request, response) => {
   return response.status(200).json({ status: 200, message: 'success' })
 }
 
+// check basic auth, that endpoint goes before all endpoints which are required auth
+// it takes creds from header and tries to find user in the database
+// and compare passwords
 const userBasicAuthCheck = async (req, res, next) => {
-  const credentials = basicAuth(req)
+  const credentials = basicAuth(req) // get creds from header
   console.log(`user: ${credentials.name} passing through auth`)
   const hashedPassword = crypto
     .createHash('md5')
     .update(credentials.pass)
-    .digest('hex')
+    .digest('hex') // convert password to hash
 
   if (!credentials) {
     return res

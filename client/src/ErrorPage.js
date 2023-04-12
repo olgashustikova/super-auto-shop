@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { ShopContext } from './ShopContext'
 import { useContext } from 'react'
 
+// if any errors happens I save error to the context and redirect to that page
 const ErrorPage = () => {
   const shopContext = useContext(ShopContext)
   return (

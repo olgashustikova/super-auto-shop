@@ -13,23 +13,27 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 })
 
+// add new add the file is saving to the cloudinary
 const addAd = async (request, response) => {
   console.log(`Adding ad, request body:`)
   console.log(request.body)
   console.log(`request file:`)
   console.log(request.file)
-  const res = await cloudinary.uploader
-    .upload(request.file.path, {
-      public_id: uuid(),
-    })
-    .then()
-  console.log(`saved image result:`)
-  console.log(res)
   try {
+    // wait cloudinary resilt
+    const res = await cloudinary.uploader
+      .upload(request.file.path, {
+        public_id: uuid(),
+      })
+      .then()
+    console.log(`saved image result:`)
+    console.log(res)
+    // get credentials so we put in mongo username who created the ad
     const credentials = basicAuth(request)
     if (!credentials) {
       return res.status(401).send('Authentication required.')
     }
+
     client.connect()
     const db = client.db('car-store')
     const collection = db.collection('ads')
@@ -46,8 +50,8 @@ const addAd = async (request, response) => {
       kilometres: request.body.kilometres,
       bodyType: request.body.bodyType,
       sellerType: request.body.sellerType,
-      imageUrl: res.url,
-      imagePublicId: res.public_id,
+      imageUrl: res.url, // save cloudinary URL
+      imagePublicId: res.public_id, // save cloudinary public id for deletion
     }
     await collection.insertOne(objectToInsert)
   } catch (err) {
@@ -59,12 +63,16 @@ const addAd = async (request, response) => {
   return response.status(200).json({ status: 200, message: 'ok' })
 }
 
+// get multiple ads by parameters
+// parameters: make, maxPrise, minPrise, maxKm, page
 const getAds = async (request, response) => {
   try {
+    // maximume ads per respnose
+    const maxAdsToRreturn = 8
     await client.connect()
     const db = client.db('car-store')
     const adsCollection = db.collection('ads')
-    // create mongo query
+    // create mongo query and adding parameters if they present
     let mongoQuery = {}
     if (request.query.make) {
       mongoQuery.make = request.query.make
@@ -89,14 +97,35 @@ const getAds = async (request, response) => {
     if (request.query.bodyType) {
       mongoQuery.bodyType = request.query.bodyType
     }
+
+    // process page
+    let page = 1
+    if (request.query.page) {
+      if (isNaN(parseInt(request.query.pag)) || page < 1) {
+        page = 1
+      }
+      page = request.query.page
+    }
+    // the number ads to skip
+    const skipAds = (page - 1) * maxAdsToRreturn
+
     console.log(
       `perform ads search with mongo query: ${JSON.stringify(mongoQuery)}`
     )
     // find ads by mongo query
-    const ads = await adsCollection.find(mongoQuery).toArray()
-    return response
-      .status(200)
-      .json({ status: 200, data: ads, message: 'All ads' })
+    const ads = await adsCollection
+      .find(mongoQuery)
+      .skip(skipAds)
+      .limit(maxAdsToRreturn)
+      .toArray()
+    // ad total ads to have total pages on front-end
+    const adsTotal = await adsCollection.countDocuments(mongoQuery)
+    return response.status(200).json({
+      status: 200,
+      data: ads,
+      message: 'All ads',
+      totalPages: Math.floor(adsTotal / maxAdsToRreturn) + 1,
+    })
   } catch (err) {
     console.error(err)
     return response
@@ -104,6 +133,8 @@ const getAds = async (request, response) => {
       .json({ status: 500, message: 'Internal Server Error' })
   }
 }
+
+// get ad by ID
 const getAd = async (request, response) => {
   try {
     await client.connect()
@@ -126,15 +157,11 @@ const getAd = async (request, response) => {
   }
 }
 
+// deletge Ad by Id
 const deleteAd = async (request, response) => {
   console.log('delete ad:')
   console.log(request.params.id)
   const credentials = basicAuth(request)
-
-  if (!credentials) {
-    return res.status(401).send('Authentication required.')
-  }
-
   try {
     await client.connect()
     const db = client.db('car-store')

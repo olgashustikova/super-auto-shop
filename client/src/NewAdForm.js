@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ShopContext } from './ShopContext'
 import { useNavigate } from 'react-router-dom'
 
+// That component is new ad Form, performs basic validation and sends POST request to create an ad
 const NewAdForm = () => {
   const shopContext = useContext(ShopContext)
   const [make, setMake] = useState('')

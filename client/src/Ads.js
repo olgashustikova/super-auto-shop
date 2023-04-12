@@ -14,8 +14,22 @@ const Ads = () => {
   const [maxPrise, setMaxPrice] = useState(0)
   const [bodyType, setBodyType] = useState('')
   const [maxKm, setMaxKm] = useState(0)
+  const [maxPagesNumber, setMaxPagesNumber] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
 
   const [searchChangeSwitch, setSearchChangeSwitch] = useState(false)
+
+  const decresePage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const increasePage = () => {
+    if (currentPage < maxPagesNumber) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
 
   const search = () => {
     setSearchChangeSwitch(!searchChangeSwitch)
@@ -60,19 +74,20 @@ const Ads = () => {
       queryParams.push(`bodyType=${bodyType}`)
     }
 
-    if (queryParams.length > 0) {
-      query += `?${queryParams.join('&')}`
-    }
+    queryParams.push(`page=${currentPage}`)
+    query += `?${queryParams.join('&')}`
+
     fetch(query)
       .then((response) => response.json())
       .then((responseObject) => {
         setAds(responseObject.data)
+        setMaxPagesNumber(responseObject.totalPages)
       })
       .catch((err) => {
         shopContext.setError(err.message)
         navigate('/error')
       })
-  }, [searchChangeSwitch])
+  }, [searchChangeSwitch, currentPage])
   return (
     <>
       <Main>
@@ -88,6 +103,11 @@ const Ads = () => {
           <Label>body type</Label>
           <Input onChange={onBodyTypeChange}></Input>
           <Button onClick={search}>Search</Button>
+          <ArrowLeft onClick={decresePage}></ArrowLeft>
+          <Page>
+            {currentPage} / {maxPagesNumber}
+          </Page>
+          <ArrowRight onClick={increasePage}></ArrowRight>
         </Row>
         {ads ? (
           <Wrapper>
@@ -173,4 +193,30 @@ const Button = styled.button`
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 6px 20px rgb(93 93 93 / 23%);
   }
+`
+const ArrowLeft = styled.div`
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-right: 15px solid #505050;
+  margin-left: 60px;
+  margin-top: 12px;
+  margin-right: 15px;
+`
+const Page = styled.div`
+  width: 40px;
+  height: 30px;
+  margin-top: 18px;
+  color: #585858;
+  font-weight: bold;
+`
+const ArrowRight = styled.div`
+  width: 0;
+  height: 0;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid #505050;
+  margin-top: 12px;
+  margin-left: 15px;
 `

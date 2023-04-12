@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { ShopContext } from './ShopContext'
 import { useNavigate } from 'react-router-dom'
 
+// signup page component
+// perfrom basic validation and send post request to create a user
 const SignUpPage = () => {
   const navigate = useNavigate()
   const shopContext = useContext(ShopContext)

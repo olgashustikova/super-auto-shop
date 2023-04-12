@@ -6,12 +6,14 @@ const MongoClient = require('mongodb').MongoClient
 const uri = process.env.Mongo_URI
 const client = new MongoClient(uri)
 
-const addChat = async (request, response) => {
+// add message from chat
+const addChatMessage = async (request, response) => {
   console.log(request.body)
   try {
     const credentials = basicAuth(request)
 
-    if (!credentials) {
+    // double check if message sent from correct user
+    if (!credentials || credentials.name !== request.body.from) {
       return res.status(401).send('Authentication required.')
     }
     client.connect()
@@ -20,8 +22,8 @@ const addChat = async (request, response) => {
 
     const objectToInsert = {
       _id: uuid(),
-      to: request.body.to,
-      from: request.body.from,
+      to: request.body.to, // person to who message sent
+      from: request.body.from, // person from message sent
       text: request.body.text,
       date: Date.now(),
     }
@@ -35,6 +37,9 @@ const addChat = async (request, response) => {
   return response.status(200).json({ status: 200, message: 'ok' })
 }
 
+// returns contact list:
+// all "from" names where current user in "to" and
+// all "to" names where current user in "from"
 const getAllChatPersonsForUser = async (request, response) => {
   const credentials = basicAuth(request)
 
@@ -48,6 +53,7 @@ const getAllChatPersonsForUser = async (request, response) => {
     const toPersonsWhereWeFrom = await collection.distinct('to', {
       from: credentials.name,
     })
+    // remove duplication
     let allPersonsTogether = new Set([
       ...fromPersonsWhereWeTo,
       ...toPersonsWhereWeFrom,
@@ -57,15 +63,12 @@ const getAllChatPersonsForUser = async (request, response) => {
         .status(404)
         .json({ status: 404, message: 'chat not found' })
     }
-    console.log('AAAAAAAAAAAAAAAAAAA : ')
     console.log(allPersonsTogether)
-    return response
-      .status(200)
-      .json({
-        status: 200,
-        data: Array.from(allPersonsTogether),
-        message: 'success',
-      })
+    return response.status(200).json({
+      status: 200,
+      data: Array.from(allPersonsTogether),
+      message: 'success',
+    })
   } catch (err) {
     console.error(err)
     return response
@@ -74,6 +77,7 @@ const getAllChatPersonsForUser = async (request, response) => {
   }
 }
 
+// get chat for current auth user and other user (param: otherUser)
 const getChat = async (request, response) => {
   const credentials = basicAuth(request)
   console.log('get chat:')
@@ -110,4 +114,4 @@ const getChat = async (request, response) => {
   }
 }
 
-module.exports = { addChat, getChat, getAllChatPersonsForUser }
+module.exports = { addChatMessage, getChat, getAllChatPersonsForUser }

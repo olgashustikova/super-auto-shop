@@ -5,10 +5,14 @@ import { Buffer } from 'buffer'
 import { ShopContext } from './ShopContext'
 import { useNavigate } from 'react-router-dom'
 
+// On login page we add username and password to the header
+// (in the format of basic auth) and send request to the server
+// If the request is success we save current user password and user to the context
+// in order to keep user for a while
 const LoginPage = () => {
   const shopContext = useContext(ShopContext)
-  const [email, setEmail] = useState('Bit@test.com')
-  const [password, setPassword] = useState('123456')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const navigate = useNavigate()
   const [errors, setErrors] = useState({})
 

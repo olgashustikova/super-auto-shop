@@ -4,6 +4,7 @@ import { ShopContext } from './ShopContext'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+// Detailed ad contect
 const AdDetailsContent = ({ ad }) => {
   const shopContext = useContext(ShopContext)
   const navigate = useNavigate()

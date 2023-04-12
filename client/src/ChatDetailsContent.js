@@ -3,6 +3,9 @@ import { ShopContext } from './ShopContext'
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+// That component shows current chat with the user
+// fromUserName - is not null if chat opened from ad page (when he clicks send message to the certain user)
+// fromUserName - is null if user opens my messages (contact is not selected)
 const ChatDetailsContent = ({ fromUserName }) => {
   const shopContext = useContext(ShopContext)
   const [chatText, setChatText] = useState('')
@@ -12,14 +15,22 @@ const ChatDetailsContent = ({ fromUserName }) => {
 
   const [timerChanged, setTimerChanged] = useState(false)
 
+  // timer to refresh messages
+  // the chat is not a main component of that website, because it's not social network
+  // users left message just for business purpose rarely
+  // and we use a timer to refresh messages once in 30 sec
   useEffect(() => {
     const timer = setInterval(() => {
       setTimerChanged((prevValue) => !prevValue)
-    }, 10000)
+    }, 30000)
     return () => clearInterval(timer)
   }, [])
 
+  // get messages for current user and fromUserName
   useEffect(() => {
+    if (!fromUserName) {
+      return
+    }
     fetch(`/api/get-chat/?otherUser=${fromUserName}`, {
       headers: {
         Authorization: shopContext.prepareBasicHeader(),
@@ -39,7 +50,11 @@ const ChatDetailsContent = ({ fromUserName }) => {
     setChatText(event.target.value)
   }
 
+  // send a chat message
   const handleSubmit = async () => {
+    if (!fromUserName) {
+      return
+    }
     try {
       const response = await fetch('/api/add-chat', {
         headers: {

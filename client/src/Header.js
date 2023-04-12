@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 
+// Header line of the website
 const Header = () => {
   const shopContext = useContext(ShopContext)
 

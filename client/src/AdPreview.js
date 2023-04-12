@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+// small preview for ad
 const AdPreview = ({ ad }) => {
   return (
     <>

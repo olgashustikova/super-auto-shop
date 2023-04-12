@@ -11,6 +11,7 @@ const Chat = () => {
   const shopContext = useContext(ShopContext)
   const navigate = useNavigate()
 
+  // get user contact list
   useEffect(() => {
     fetch('/api/get-chats-persons', {
       headers: {
